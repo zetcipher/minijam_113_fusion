@@ -1,7 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://bg1umq48h1i6o"]
+[gd_scene load_steps=16 format=3 uid="uid://bg1umq48h1i6o"]
 
 [ext_resource type="Texture2D" uid="uid://c50m2wdr1wta0" path="res://assets/textures/checkerboard.png" id="1_emwne"]
 [ext_resource type="PackedScene" uid="uid://b1khm8vxgggo3" path="res://objects/player.tscn" id="2_olev3"]
+[ext_resource type="PackedScene" uid="uid://b6viffnrqngfq" path="res://objects/physics_ball.tscn" id="3_7tel3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85217"]
+
+[sub_resource type="Sky" id="Sky_5p3xp"]
+sky_material = SubResource("ProceduralSkyMaterial_85217")
+
+[sub_resource type="Environment" id="Environment_lwio1"]
+background_mode = 2
+sky = SubResource("Sky_5p3xp")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ddpr8"]
 albedo_texture = ExtResource("1_emwne")
@@ -11,19 +21,68 @@ uv1_triplanar = true
 material = SubResource("StandardMaterial3D_ddpr8")
 size = Vector3(64, 2, 64)
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lbbyt"]
+
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_e6bg2"]
 data = PackedVector3Array(-32, 1, 32, 32, 1, 32, -32, -1, 32, 32, 1, 32, 32, -1, 32, -32, -1, 32, 32, 1, -32, -32, 1, -32, 32, -1, -32, -32, 1, -32, -32, -1, -32, 32, -1, -32, 32, 1, 32, 32, 1, -32, 32, -1, 32, 32, 1, -32, 32, -1, -32, 32, -1, 32, -32, 1, -32, -32, 1, 32, -32, -1, -32, -32, 1, 32, -32, -1, 32, -32, -1, -32, 32, 1, 32, -32, 1, 32, 32, 1, -32, -32, 1, 32, -32, 1, -32, 32, 1, -32, -32, -1, 32, 32, -1, 32, -32, -1, -32, 32, -1, 32, 32, -1, -32, -32, -1, -32)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_n1mbg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_38c82"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rmdxw"]
+friction = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_xop5k"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7ompl"]
+
 [node name="testmap" type="Node3D"]
 
-[node name="plane" type="MeshInstance3D" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lwio1")
+
+[node name="plane" type="MeshInstance3D" parent="WorldEnvironment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 mesh = SubResource("BoxMesh_rs3nw")
+skeleton = NodePath("../..")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="plane"]
+[node name="StaticBody3D" type="StaticBody3D" parent="WorldEnvironment/plane"]
+collision_layer = 3
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_lbbyt")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="plane/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/plane/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_e6bg2")
 
-[node name="Player" parent="." instance=ExtResource("2_olev3")]
+[node name="Player" parent="WorldEnvironment" instance=ExtResource("2_olev3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 6, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 3, 0)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/StaticBody3D"]
+shape = SubResource("BoxShape3D_n1mbg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment/StaticBody3D"]
+mesh = SubResource("BoxMesh_38c82")
+
+[node name="PhysicsBall" parent="WorldEnvironment" instance=ExtResource("3_7tel3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 9)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2, -3)
+collision_layer = 3
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_rmdxw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment/RigidBody3D"]
+mesh = SubResource("BoxMesh_xop5k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/RigidBody3D"]
+shape = SubResource("BoxShape3D_7ompl")

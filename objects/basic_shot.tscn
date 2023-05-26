@@ -1,16 +1,31 @@
-[gd_scene load_steps=4 format=3 uid="uid://lqcptbkswqva"]
+[gd_scene load_steps=5 format=3 uid="uid://lqcptbkswqva"]
 
 [ext_resource type="Script" path="res://objects/basic_shot.gd" id="1_wdsr6"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_k4oan"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_rusff"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g1a56"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_1yicf"]
 
 [node name="BasicShot" type="Area3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_wdsr6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_k4oan")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("SphereMesh_rusff")
+material_override = SubResource("StandardMaterial3D_g1a56")
+mesh = SubResource("SphereMesh_1yicf")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+collision_mask = 2
+
+[node name="RayCast3D2" type="RayCast3D" parent="."]
+collision_mask = 2
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

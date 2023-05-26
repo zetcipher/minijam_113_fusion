@@ -6,7 +6,9 @@ const JUMP_VELOCITY := 5.0
 
 var cam_sens := Vector2(3,3)
 
-@onready var cam := $Camera3D as Camera3D
+var basic_shot := preload("res://objects/basic_shot.tscn")
+
+@onready var cam := $Head/Camera3D as Camera3D
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -15,6 +17,25 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _physics_process(delta):
+	movement(delta)
+	if Input.is_action_just_pressed("shoot"): shoot()
+	
+	#print(Vector3(1,2,4).rotated(Vector3(0,1,0), cam.rotation.y))
+
+
+func shoot():
+	var shot := basic_shot.instantiate() as Area3D
+	
+	shot.position = position + $Head.position
+	shot.look_at($Head/Camera3D/Target.position, Vector3.UP)
+	shot.target_pos = $Head/Camera3D/Target.global_position
+#	shot.rotation.x = self.rotation.x
+#	shot.rotation.y = cam.rotation.y
+	
+	get_parent().add_child(shot)
+
+
+func movement(delta: float):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta

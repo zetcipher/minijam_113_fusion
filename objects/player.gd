@@ -1,8 +1,9 @@
-extends CharacterBody3D
-
+class_name Player extends CharacterBody3D
 
 const SPEED := 6.0
-const JUMP_VELOCITY := 5.0
+const JUMP_VELOCITY := 6.0
+
+var shot_type := 0
 
 var cam_sens := Vector2(3,3)
 
@@ -20,11 +21,34 @@ func _physics_process(delta):
 	movement(delta)
 	if Input.is_action_just_pressed("shoot"): shoot()
 	
+	if Input.is_physical_key_pressed(KEY_1): shot_type = 0
+	if Input.is_physical_key_pressed(KEY_2): shot_type = 1
+	if Input.is_physical_key_pressed(KEY_3): shot_type = 2
+	
+	$CanvasLayer/Control/Label.text = "SHOT TYPE: " + str(shot_type)
+	
 	#print(Vector3(1,2,4).rotated(Vector3(0,1,0), cam.rotation.y))
 
 
 func shoot():
 	var shot := basic_shot.instantiate() as Area3D
+	
+	match shot_type:
+		1:
+			shot.scale = Vector3.ONE * 1
+			shot.blast_radius = 2
+			shot.blast_force = 3
+			shot.blast_lift = 0.8
+		2:
+			shot.scale = Vector3.ONE * 1
+			shot.blast_radius = 4
+			shot.blast_force = 5
+			shot.blast_lift = 1.5
+		_:
+			shot.scale = Vector3.ONE * 0.5
+			shot.blast_radius = 0.5
+			shot.blast_force = 0.5
+			shot.blast_lift = 0.1
 	
 	shot.position = position + $Head.position
 	shot.look_at($Head/Camera3D/Target.position, Vector3.UP)

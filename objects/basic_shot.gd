@@ -8,7 +8,9 @@ var acceleration := 0.0
 var grav_mult := 0.0
 var y_vel := 0.0
 var dir := Vector3.ZERO
-var blast_radius := 5
+var blast_radius := 5.0
+var blast_force := 1.0
+var blast_lift := 0.5
 var time := 0.0
 
 var blast_pos := Vector3.ZERO
@@ -53,10 +55,13 @@ func blast():
 	else:
 		blast.position = blast_pos
 	blast.scale *= blast_radius
+	blast.blast_force = blast_force
+	blast.lift_force = blast_lift
 	get_parent().add_child(blast)
 	self.queue_free()
 
 func _on_body_entered(body):
+	if body is Player: return
 	blast()
 
 

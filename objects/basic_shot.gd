@@ -8,7 +8,7 @@ var acceleration := 0.0
 var grav_mult := 0.0
 var y_vel := 0.0
 var dir := Vector3.ZERO
-var blast_radius := 2
+var blast_radius := 5
 var time := 0.0
 
 var blast_pos := Vector3.ZERO

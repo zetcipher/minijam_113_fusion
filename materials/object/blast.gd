@@ -1,7 +1,7 @@
 extends Area3D
 
-var blast_force := 2.0;
-var lift_force := 0.5;
+var blast_force := 10.0
+var lift_force := 2.5
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -32,4 +32,4 @@ func _on_body_entered(body):
 	
 	#obj.apply_impulse(force * (1 / dist), position)
 	obj.apply_central_impulse(force)
-	obj.apply_torque_impulse(force * 0.3)
+	obj.apply_torque_impulse(force * 0.2)

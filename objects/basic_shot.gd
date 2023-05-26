@@ -17,11 +17,18 @@ var blast_pos := Vector3.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var material := $MeshInstance3D.material_override as StandardMaterial3D
+	match element:
+		0: material.albedo_color = Color(1.0, 0.2, 0.1)
+		1: material.albedo_color = Color(0.2, 0.6, 1.0)
+		2: material.albedo_color = Color(0.6, 1.0, 0.5)
+		3: material.albedo_color = Color(0.7, 0.5, 0.2)
+	
 	dir = target_pos - position
 	dir = dir.normalized()
 	$MeshInstance3D.rotation = self.rotation
 	self.rotation = Vector3.ZERO
-	$RayCast3D.target_position = dir * speed * (1 / 60)
+	$RayCast3D.target_position = dir * speed * (1 / 60) * 1.2
 	$RayCast3D2.target_position = dir * speed * (1 / 60) * 16
 
 
@@ -35,9 +42,13 @@ func _physics_process(delta):
 	y_vel -= gravity * grav_mult * delta
 	position.y += y_vel * delta
 	
-	speed += acceleration * delta
+	if acceleration < 0.0 and speed > 0.0:
+		speed += acceleration * delta
+		if speed < 0.0: speed = 0.0
+	if acceleration > 0.0:
+		speed += acceleration * delta
 	
-	$RayCast3D.target_position = dir * speed * delta
+	$RayCast3D.target_position = dir * speed * delta * 1.2
 	$RayCast3D2.target_position = dir * speed * delta * 16
 	
 	if time > 10.0:
@@ -50,6 +61,7 @@ func blast():
 	blast_pos = $RayCast3D2.get_collision_point()
 	#print(blast_pos)
 	var blast := G.blast.instantiate()
+	blast.element = element
 	if blast_pos == Vector3.ZERO:
 		blast.position = position
 	else:

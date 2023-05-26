@@ -3,6 +3,9 @@ extends Node
 enum Aspects {BASIC, HEAVY, BEAM, MELEE}
 enum Elements {FIRE, ICE, WIND, EARTH}
 
+var element_energy_use := [1.0, 1.0, 1.0, 1.0]
+var aspect_energy_use := [7.5, 33.4, 20.0, 20.0]
+
 var element_mods := [
 	{ # fire
 		shot_speed = 1.5,
@@ -43,7 +46,7 @@ var element_mods := [
 	{ # earth
 		shot_speed = 1.0,
 		shot_grav = 1.0,
-		shot_accel = 3.0,
+		shot_accel = 1.5,
 		shot_scale = 1.0,
 		blast_radius = 1.0,
 		blast_force = 1.0,

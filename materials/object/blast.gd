@@ -1,5 +1,7 @@
 extends Area3D
 
+var element := 0
+
 var blast_force := 10.0
 var lift_force := 2.5
 

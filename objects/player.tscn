@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://b1khm8vxgggo3"]
+[gd_scene load_steps=5 format=3 uid="uid://b1khm8vxgggo3"]
 
 [ext_resource type="Script" path="res://objects/player.gd" id="1_uonjx"]
 [ext_resource type="Texture2D" uid="uid://biax3kv2nruub" path="res://assets/textures/crosshair.png" id="2_61efj"]
+[ext_resource type="PackedScene" uid="uid://ch4k4jq2ngkjm" path="res://objects/beam.tscn" id="2_66qxj"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7a1tt"]
 
@@ -18,10 +19,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 [node name="Camera3D" type="Camera3D" parent="Head"]
 
 [node name="Target" type="Marker3D" parent="Head/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -25)
+
+[node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
+target_position = Vector3(0, 0, -25)
 
 [node name="Body" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Beam" parent="Body" instance=ExtResource("2_66qxj")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

@@ -4,10 +4,10 @@ const SPEED := 6.0
 const JUMP_VELOCITY := 6.0
 
 var shot_type := 0
+var element := 0
 
 var cam_sens := Vector2(3,3)
 
-var basic_shot := preload("res://objects/basic_shot.tscn")
 
 @onready var cam := $Head/Camera3D as Camera3D
 
@@ -21,9 +21,19 @@ func _physics_process(delta):
 	movement(delta)
 	if Input.is_action_just_pressed("shoot"): shoot()
 	
-	if Input.is_physical_key_pressed(KEY_1): shot_type = 0
-	if Input.is_physical_key_pressed(KEY_2): shot_type = 1
-	if Input.is_physical_key_pressed(KEY_3): shot_type = 2
+	if Input.is_physical_key_pressed(KEY_1): element = 0
+	if Input.is_physical_key_pressed(KEY_2): element = 1
+	if Input.is_physical_key_pressed(KEY_3): element = 2
+	if Input.is_physical_key_pressed(KEY_4): element = 3
+	
+	if Input.is_physical_key_pressed(KEY_Q): shot_type = 0
+	if Input.is_physical_key_pressed(KEY_E): shot_type = 1
+	
+	match element:
+		0: $CanvasLayer/Control/crosshair.modulate = Color(1.0, 0.3, 0.0)
+		1: $CanvasLayer/Control/crosshair.modulate = Color(0.2, 0.6, 1.0)
+		2: $CanvasLayer/Control/crosshair.modulate = Color(0.6, 1.0, 0.5)
+		3: $CanvasLayer/Control/crosshair.modulate = Color(0.7, 0.5, 0.2)
 	
 	$CanvasLayer/Control/Label.text = "SHOT TYPE: " + str(shot_type)
 	
@@ -31,24 +41,25 @@ func _physics_process(delta):
 
 
 func shoot():
-	var shot := basic_shot.instantiate() as Area3D
+	var shot := G.basic_shot.instantiate() as BasicProjectile
 	
 	match shot_type:
 		1:
-			shot.scale = Vector3.ONE * 1
-			shot.blast_radius = 2
-			shot.blast_force = 3
-			shot.blast_lift = 0.8
-		2:
-			shot.scale = Vector3.ONE * 1
-			shot.blast_radius = 4
-			shot.blast_force = 5
-			shot.blast_lift = 1.5
+			shot.speed = 30.0 * G.element_mods[self.element].shot_speed
+			shot.acceleration = -20.0 * G.element_mods[self.element].shot_accel
+			shot.grav_mult = 1.5 * G.element_mods[self.element].shot_grav
+			shot.scale = Vector3.ONE * 1 * G.element_mods[self.element].shot_scale
+			shot.blast_radius = 3 * G.element_mods[self.element].blast_radius
+			shot.blast_force = 3.5 * G.element_mods[self.element].blast_force
+			shot.blast_lift = 1.0 * G.element_mods[self.element].blast_lift
 		_:
-			shot.scale = Vector3.ONE * 0.5
-			shot.blast_radius = 0.5
-			shot.blast_force = 0.5
-			shot.blast_lift = 0.1
+			shot.speed = 50.0 * G.element_mods[self.element].shot_speed
+			shot.acceleration = -10.0 * G.element_mods[self.element].shot_accel
+			shot.grav_mult = 1.0 * G.element_mods[self.element].shot_grav
+			shot.scale = Vector3.ONE * 0.5 * G.element_mods[self.element].shot_scale
+			shot.blast_radius = 0.5 * G.element_mods[self.element].blast_radius
+			shot.blast_force = 0.5 * G.element_mods[self.element].blast_force
+			shot.blast_lift = 0.125 * G.element_mods[self.element].blast_lift
 	
 	shot.position = position + $Head.position
 	shot.look_at($Head/Camera3D/Target.position, Vector3.UP)

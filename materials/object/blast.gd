@@ -22,14 +22,14 @@ func _on_body_entered(body):
 	
 	var obj : RigidBody3D = body as RigidBody3D
 	var dir := obj.position - position
-	var dist := dir.length()
+	var dist := dir.length() / scale.x
 	dir = dir.normalized()
-	dist = clampf(dist, 0.1, 1.0 * scale.x)
+	dist = clampf(dist, 0.7, 0.95)
 	
 	var force := dir * blast_force
 	force.y += lift_force
-	force *= 1 / dist
+	force *= 1.7 - dist
 	
 	#obj.apply_impulse(force * (1 / dist), position)
 	obj.apply_central_impulse(force)
-	obj.apply_torque_impulse(force * 0.2)
+	obj.apply_torque_impulse(force * 0.15)

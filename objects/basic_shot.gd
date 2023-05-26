@@ -1,4 +1,4 @@
-extends Area3D
+class_name BasicProjectile extends Area3D
 
 var element := 0
 
@@ -49,7 +49,7 @@ func _physics_process(delta):
 func blast():
 	blast_pos = $RayCast3D2.get_collision_point()
 	#print(blast_pos)
-	var blast := preload("res://materials/object/blast.tscn").instantiate()
+	var blast := G.blast.instantiate()
 	if blast_pos == Vector3.ZERO:
 		blast.position = position
 	else:

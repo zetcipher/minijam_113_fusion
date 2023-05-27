@@ -17,12 +17,12 @@ var blast_pos := Vector3.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-#	var material := $MeshInstance3D.material_override as StandardMaterial3D
-#	match element:
-#		0: material.albedo_color = Color(1.0, 0.2, 0.1)
-#		1: material.albedo_color = Color(0.2, 0.6, 1.0)
-#		2: material.albedo_color = Color(0.6, 1.0, 0.5)
-#		3: material.albedo_color = Color(0.7, 0.5, 0.2)
+	var material := $MeshInstance3D.material_override as StandardMaterial3D
+	match element:
+		0: material.albedo_color = Color(1.0, 0.2, 0.1)
+		1: material.albedo_color = Color(0.2, 0.6, 1.0)
+		2: material.albedo_color = Color(0.6, 1.0, 0.5)
+		3: material.albedo_color = Color(0.7, 0.5, 0.2)
 	
 	dir = target_pos - position
 	dir = dir.normalized()
@@ -31,8 +31,8 @@ func _ready():
 	self.rotation = Vector3.ZERO
 #	$RayCast3D.position = -dir * speed * (1 / 60) * 0.1
 #	$RayCast3D.target_position = dir * speed * (1 / 60) * 1.1
-	$RayCast3D2.position = -dir * speed * (1 / 60) * 0.1
-	$RayCast3D2.target_position = dir * speed * (1 / 60) * 1.1
+	$RayCast3D2.position = -dir * speed * (1.0 / 60.0) * 0.1
+	$RayCast3D2.target_position = dir * speed * (1.0 / 60.0) * 1.1
 
 func add_exception(object: CollisionObject3D):
 	$RayCast3D.add_exception(object)

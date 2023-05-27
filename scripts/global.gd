@@ -121,6 +121,6 @@ func _process(delta):
 	pass
 
 
-static func bool_to_sign(input: bool) -> int:
+func bool_to_sign(input: bool) -> int:
 	if input: return 1
 	else: return -1

@@ -1,8 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://b2ylkj764y6km"]
+[gd_scene load_steps=12 format=3 uid="uid://b2ylkj764y6km"]
 
+[ext_resource type="Script" path="res://objects/flame_torch.gd" id="1_ej1as"]
 [ext_resource type="ArrayMesh" uid="uid://xv4fk87g0g7n" path="res://assets/models/flameTorch.obj" id="1_v2jja"]
 [ext_resource type="Material" uid="uid://c222vudtkobtp" path="res://materials/environment/metal0.tres" id="2_7ay4v"]
 [ext_resource type="Shader" path="res://shaders/spatial/fire.gdshader" id="3_3ulj5"]
+[ext_resource type="PackedScene" uid="uid://535p3yjxx6sp" path="res://objects/interaction_zone.tscn" id="5_t7ped"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6vmn8"]
 size = Vector3(0.5, 1, 0.5)
@@ -33,7 +35,9 @@ height = 0.75
 cap_top = false
 cap_bottom = false
 
-[node name="FlameTorch" type="StaticBody3D"]
+[node name="FlameTorch" type="StaticBody3D" node_paths=PackedStringArray("ActionZone")]
+script = ExtResource("1_ej1as")
+ActionZone = NodePath("InteractionZone")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -54,3 +58,6 @@ mesh = SubResource("CylinderMesh_wsq7w")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.118962, 0)
 light_color = Color(1, 0.611765, 0.168627, 1)
 omni_range = 2.0
+
+[node name="InteractionZone" parent="." instance=ExtResource("5_t7ped")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.14977, 0)

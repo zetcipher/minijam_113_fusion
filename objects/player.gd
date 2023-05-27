@@ -180,7 +180,7 @@ func shoot():
 
 func can_spend_energy(aspect: int, element: int) -> bool:
 	if aspect == 2:
-		if energy >= G.aspect_energy_use[shot_type][element] * G.element_energy_use[shot_type][element] * (1 / 60):
+		if energy >= G.aspect_energy_use[shot_type][element] * G.element_energy_use[shot_type][element] * (1.0 / 60.0):
 			return true
 		else:
 			return false

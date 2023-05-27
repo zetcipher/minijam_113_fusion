@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://bg1umq48h1i6o"]
+[gd_scene load_steps=34 format=3 uid="uid://bg1umq48h1i6o"]
 
 [ext_resource type="Texture2D" uid="uid://c50m2wdr1wta0" path="res://assets/textures/checkerboard.png" id="1_emwne"]
 [ext_resource type="PackedScene" uid="uid://b1khm8vxgggo3" path="res://objects/player.tscn" id="2_olev3"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://addons/cyclops_level_builder/resources/convex_block_data.gd" id="6_6yn6q"]
 [ext_resource type="Material" uid="uid://dm1r8s7in5f6v" path="res://materials/environment/graybox.tres" id="7_01m3b"]
 [ext_resource type="PackedScene" uid="uid://jkpkstd152fy" path="res://objects/power_pedestal.tscn" id="8_ae4hk"]
+[ext_resource type="PackedScene" uid="uid://b2ylkj764y6km" path="res://objects/flame_torch.tscn" id="9_lgjkv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85217"]
 
@@ -423,3 +424,12 @@ is_aspect = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -16)
 power = 3
 is_aspect = true
+
+[node name="Interactables" type="Node3D" parent="WorldEnvironment"]
+
+[node name="FlameTorch" parent="WorldEnvironment/Interactables" instance=ExtResource("9_lgjkv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 4)
+
+[node name="FlameTorch2" parent="WorldEnvironment/Interactables" instance=ExtResource("9_lgjkv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 7)
+activated = true

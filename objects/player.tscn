@@ -6,7 +6,7 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3qk7x"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_6ttdt"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fa8ji"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_uayoe"]
 height = 1.0
@@ -19,7 +19,7 @@ script = ExtResource("1_uonjx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CylinderShape3D_6ttdt")
+shape = SubResource("CapsuleShape3D_fa8ji")
 
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -30,12 +30,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -25)
 
 [node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
+visible = false
 target_position = Vector3(0, 0, -25)
+
+[node name="RayCast3D2" type="RayCast3D" parent="Head/Camera3D"]
+target_position = Vector3(0, 0, -1.5)
+collision_mask = 2
 
 [node name="Body" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Beam" parent="Body" instance=ExtResource("2_66qxj")]
+visible = false
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -67,15 +73,23 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 11
 text = "ENERGY"
 
-[node name="Label2" type="Label" parent="CanvasLayer/Control"]
-layout_mode = 0
-offset_left = 13.0
-offset_top = 87.0
-offset_right = 91.0
-offset_bottom = 113.0
+[node name="powerText" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -39.0
+offset_top = -150.0
+offset_right = 39.0
+offset_bottom = -124.0
+grow_horizontal = 2
+grow_vertical = 0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 11
-text = "TEST TEXT"
+theme_override_font_sizes/font_size = 24
+text = "Press RMB to equip [POWER]."
 
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control"]
 layout_mode = 0

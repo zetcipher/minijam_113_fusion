@@ -1,29 +1,25 @@
 [gd_scene load_steps=5 format=3 uid="uid://lqcptbkswqva"]
 
 [ext_resource type="Script" path="res://objects/basic_shot.gd" id="1_wdsr6"]
+[ext_resource type="Material" uid="uid://b68hnhw6cqdmi" path="res://materials/object/basic_shot_0.tres" id="2_gnrd3"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_k4oan"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g1a56"]
-resource_local_to_scene = true
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_1yicf"]
+[sub_resource type="SphereMesh" id="SphereMesh_1e2yi"]
 
 [node name="BasicShot" type="Area3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
-collision_layer = 3
-collision_mask = 3
 script = ExtResource("1_wdsr6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_k4oan")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-material_override = SubResource("StandardMaterial3D_g1a56")
-mesh = SubResource("SphereMesh_1yicf")
+material_override = ExtResource("2_gnrd3")
+mesh = SubResource("SphereMesh_1e2yi")
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
+enabled = false
 target_position = Vector3(0, 0, 0)
 
 [node name="RayCast3D2" type="RayCast3D" parent="."]

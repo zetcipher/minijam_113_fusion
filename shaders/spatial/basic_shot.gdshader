@@ -1,9 +1,17 @@
 shader_type spatial;
 
-uniform vec4 dark_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
-uniform vec4 bright_color : source_color = vec4(1.0);
-uniform float intensity = 1.0;
+uniform sampler2D noise;
+uniform mat4 lag_transform;
 
-void fragment() {
-	ALBEDO = ((dark_color.rgb * vec3(intensity)) + vec3(bright_color.r * UV.x, bright_color.g * UV.x, bright_color.b * UV.x));
+// Shader by celyk (https://godotshaders.com/shader/mesh-smearing/)
+
+void vertex(){
+	// a parameter determining magnitude of the displacement
+	float t = pow(texture(noise, UV * 5.0).x, 6.5) * 2.0;
+	
+	// linearly interpolate between the current transform and the laggy transform in world space
+	MODELVIEW_MATRIX = MODEL_MATRIX + (lag_transform - MODEL_MATRIX)*t;
+	
+	// puts it into view space
+	MODELVIEW_MATRIX = VIEW_MATRIX * MODELVIEW_MATRIX;
 }

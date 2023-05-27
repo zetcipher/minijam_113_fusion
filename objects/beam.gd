@@ -1,9 +1,9 @@
-extends Area3D
+class_name Beam extends Area3D
 
 var element := 0
 
 var active := false
-var push_force := 10.0
+var push_force := 15.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,7 +18,8 @@ func _physics_process(delta):
 			if not body is RigidBody3D: continue
 			var b = body as RigidBody3D
 			var dir : Vector3 = b.position - global_position
-			b.apply_central_force(dir.normalized() * push_force)
+			if element == 2: b.apply_central_force(dir.normalized() * push_force)
+			if element == 3: b.apply_central_force(dir.normalized() * -push_force)
 			#b.apply_torque(dir.normalized() * push_force * 0.4)
 
 func set_element(elmt: int):

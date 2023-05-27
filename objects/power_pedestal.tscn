@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://jkpkstd152fy"]
+[gd_scene load_steps=9 format=3 uid="uid://jkpkstd152fy"]
 
 [ext_resource type="Texture2D" uid="uid://cywdd7ou7s1y7" path="res://assets/textures/plate_0.png" id="1_3iwj8"]
+[ext_resource type="Script" path="res://objects/power_pedestal.gd" id="1_sqjh0"]
 [ext_resource type="Texture2D" uid="uid://dqvi4dhp4t1i5" path="res://assets/textures/pinkbeam.png" id="2_62jgw"]
 [ext_resource type="PackedScene" uid="uid://cj2poykhssk4f" path="res://objects/power_crystal.tscn" id="3_k4y55"]
 
@@ -42,6 +43,7 @@ _surfaces = [{
 }]
 
 [node name="PowerPedestal" type="StaticBody3D"]
+script = ExtResource("1_sqjh0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

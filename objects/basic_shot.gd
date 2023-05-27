@@ -17,37 +17,33 @@ var blast_pos := Vector3.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var material := $MeshInstance3D.material_override as StandardMaterial3D
-	match element:
-		0: material.albedo_color = Color(1.0, 0.2, 0.1)
-		1: material.albedo_color = Color(0.2, 0.6, 1.0)
-		2: material.albedo_color = Color(0.6, 1.0, 0.5)
-		3: material.albedo_color = Color(0.7, 0.5, 0.2)
+#	var material := $MeshInstance3D.material_override as StandardMaterial3D
+#	match element:
+#		0: material.albedo_color = Color(1.0, 0.2, 0.1)
+#		1: material.albedo_color = Color(0.2, 0.6, 1.0)
+#		2: material.albedo_color = Color(0.6, 1.0, 0.5)
+#		3: material.albedo_color = Color(0.7, 0.5, 0.2)
 	
 	dir = target_pos - position
 	dir = dir.normalized()
+	position += dir * 0.25
 	$MeshInstance3D.rotation = self.rotation
 	self.rotation = Vector3.ZERO
-	$RayCast3D.position = -dir * speed * (1 / 60) * 0.1
-	$RayCast3D.target_position = dir * speed * (1 / 60) * 1.1
+#	$RayCast3D.position = -dir * speed * (1 / 60) * 0.1
+#	$RayCast3D.target_position = dir * speed * (1 / 60) * 1.1
 	$RayCast3D2.position = -dir * speed * (1 / 60) * 0.1
 	$RayCast3D2.target_position = dir * speed * (1 / 60) * 1.1
 
 func add_exception(object: CollisionObject3D):
+	$RayCast3D.add_exception(object)
 	$RayCast3D2.add_exception(object)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	var collision := false
-	for body in get_overlapping_bodies():
-		if not body is Player:
-			blast()
-			return
 	
-	if $RayCast3D2.is_colliding():
-		if not $RayCast3D2.get_collider() is Player:
-			blast()
-			return
+	if $RayCast3D2.is_colliding() and not $RayCast3D2.get_collider() is Player:
+		blast()
+		return
 	
 	position += dir * speed * delta
 	y_vel -= gravity * grav_mult * delta
@@ -59,8 +55,8 @@ func _physics_process(delta):
 	if acceleration > 0.0:
 		speed += acceleration * delta
 	
-	$RayCast3D.position = -dir * speed * delta * 0.1
-	$RayCast3D.target_position = dir * speed * delta * 1.1
+#	$RayCast3D.position = -dir * speed * delta * 0.1
+#	$RayCast3D.target_position = dir * speed * delta * 1.1
 	$RayCast3D2.position = -dir * speed * delta * 0.1
 	$RayCast3D2.target_position = dir * speed * delta * 1.1
 	
@@ -86,7 +82,6 @@ func blast():
 	self.queue_free()
 
 func _on_body_entered(body):
-	if body is Player: return
-	blast()
+	if not body is Player: blast()
 
 

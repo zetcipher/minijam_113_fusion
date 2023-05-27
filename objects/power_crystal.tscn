@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://cj2poykhssk4f"]
+[gd_scene load_steps=6 format=3 uid="uid://cj2poykhssk4f"]
 
+[ext_resource type="Script" path="res://objects/power_crystal.gd" id="1_g3y5s"]
 [ext_resource type="Texture2D" uid="uid://bsbqbgpv3h527" path="res://assets/textures/icons/iconSheet.png" id="1_qdg3h"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ntflc"]
 radius = 0.75
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d1aco"]
+resource_local_to_scene = true
 cull_mode = 1
 albedo_color = Color(0.509804, 0.882353, 1, 1)
 metallic = 1.0
@@ -19,6 +21,7 @@ rings = 2
 [node name="PowerCrystal" type="StaticBody3D"]
 collision_layer = 2
 collision_mask = 2
+script = ExtResource("1_g3y5s")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_ntflc")
@@ -27,8 +30,12 @@ shape = SubResource("SphereShape3D_ntflc")
 material_override = SubResource("StandardMaterial3D_d1aco")
 mesh = SubResource("SphereMesh_lbb58")
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
+[node name="Sprite3D" type="Sprite3D" parent="MeshInstance3D"]
 billboard = 1
 texture = ExtResource("1_qdg3h")
 hframes = 4
 vframes = 2
+
+[node name="OmniLight3D" type="OmniLight3D" parent="MeshInstance3D"]
+
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

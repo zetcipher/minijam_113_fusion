@@ -19,6 +19,9 @@ var energy_regen := 200.0
 var must_refill := false
 var regen_delay := 0.0
 
+var can_pick_power := false
+var can_switch := false
+
 var shot_type := 0
 var element := 0
 
@@ -44,7 +47,8 @@ func _physics_process(delta):
 		beam.active = true
 		beam.monitorable = true
 		beam.monitorable = true
-		if element == 2: apply_central_force(Vector3((position + Vector3.UP) - $Head/Camera3D/Target.global_position) * 1.5)
+		if element == 2 and $Head/Camera3D/RayCast3D.is_colliding(): apply_central_force(Vector3((position + Vector3.UP) - $Head/Camera3D/Target.global_position) * 1.5)
+		if element == 3 and $Head/Camera3D/RayCast3D.is_colliding(): apply_central_force(Vector3($Head/Camera3D/Target.global_position - (position + Vector3.UP)) * 1.5)
 		energy -= G.aspect_energy_use[shot_type] * G.element_energy_use[shot_type][element] * delta
 		if energy <= 0.0:
 			energy = 0.0
@@ -59,13 +63,14 @@ func _physics_process(delta):
 		beam.monitorable = false
 		using_energy = false
 	
-	if Input.is_physical_key_pressed(KEY_1): element = 0
-	if Input.is_physical_key_pressed(KEY_2): element = 1
-	if Input.is_physical_key_pressed(KEY_3): element = 2
-	if Input.is_physical_key_pressed(KEY_4): element = 3
-	
-	if Input.is_action_just_pressed("scroll_aspect_back"): shot_type -= 1
-	if Input.is_action_just_pressed("scroll_aspect_for"): shot_type += 1
+	if can_switch:
+		if Input.is_physical_key_pressed(KEY_1): element = 0
+		if Input.is_physical_key_pressed(KEY_2): element = 1
+		if Input.is_physical_key_pressed(KEY_3): element = 2
+		if Input.is_physical_key_pressed(KEY_4): element = 3
+		
+		if Input.is_action_just_pressed("scroll_aspect_back"): shot_type -= 1
+		if Input.is_action_just_pressed("scroll_aspect_for"): shot_type += 1
 	if shot_type < 0: shot_type = 2
 	if shot_type > 2: shot_type = 0
 	
@@ -82,6 +87,42 @@ func _physics_process(delta):
 		$Body/Beam.look_at($Head/Camera3D/Target.global_position)
 	
 	
+	var pCheck_ray := $Head/Camera3D/RayCast3D2 as RayCast3D
+	var ptext0 := "Press RMB to equip ["
+	var ptext1 := "]."
+	
+	if pCheck_ray.is_colliding() and pCheck_ray.get_collider() is PowerCrystal: can_pick_power = true
+	else: can_pick_power = false
+	
+	if can_pick_power:
+		var ptext2 := ""
+		var power : int = pCheck_ray.get_collider().power
+		var is_aspect : bool = pCheck_ray.get_collider().is_aspect
+		
+		if is_aspect: match power:
+			1: ptext2 = "BLAST"
+			2: ptext2 = "BEAM"
+			3: ptext2 = "MELEE"
+			_: ptext2 = "BULLET"
+		else: match power:
+			1: ptext2 = "ICE"
+			2: ptext2 = "WIND"
+			3: ptext2 = "EARTH"
+			_: ptext2 = "FIRE"
+		
+		$CanvasLayer/Control/powerText.text = ptext0 + ptext2 + ptext1
+		$CanvasLayer/Control/powerText.show()
+		
+		if Input.is_action_just_pressed("interact"):
+			if is_aspect: 
+				shot_type = power
+			else: 
+				element = power
+			G.emit_signal("power_updated", shot_type, element)
+	else:
+		$CanvasLayer/Control/powerText.hide()
+	
+	
 	if energy < 100.0 and not using_energy and regen_delay <= 0.0:
 		if must_refill:
 			energy += energy_regen * delta * 0.5
@@ -96,7 +137,7 @@ func _physics_process(delta):
 		if regen_delay < 0.0:
 			regen_delay = 0.0
 	
-	$CanvasLayer/Control/Label.text = "SHOT TYPE: " + str(shot_type)
+	$CanvasLayer/Control/Label.text = G.power_names[shot_type][element]
 	
 	#print(Vector3(1,2,4).rotated(Vector3(0,1,0), cam.rotation.y))
 
@@ -106,21 +147,21 @@ func shoot():
 	shot.element = element
 	match shot_type:
 		1:
-			shot.speed = 30.0 * G.element_mods[self.element].shot_speed
-			shot.acceleration = -20.0 * G.element_mods[self.element].shot_accel
-			shot.grav_mult = 1.5 * G.element_mods[self.element].shot_grav
-			shot.scale = Vector3.ONE * 1 * G.element_mods[self.element].shot_scale
-			shot.blast_radius = 3 * G.element_mods[self.element].blast_radius
-			shot.blast_force = 3.5 * G.element_mods[self.element].blast_force
-			shot.blast_lift = 1.0 * G.element_mods[self.element].blast_lift
+			shot.speed = 30.0 * G.element_mods_heavy[self.element].shot_speed
+			shot.acceleration = -20.0 * G.element_mods_heavy[self.element].shot_accel
+			shot.grav_mult = 1.5 * G.element_mods_heavy[self.element].shot_grav
+			shot.scale = Vector3.ONE * 1 * G.element_mods_heavy[self.element].shot_scale
+			shot.blast_radius = 3 * G.element_mods_heavy[self.element].blast_radius
+			shot.blast_force = 3.5 * G.element_mods_heavy[self.element].blast_force
+			shot.blast_lift = 1.0 * G.element_mods_heavy[self.element].blast_lift
 		_:
-			shot.speed = 50.0 * G.element_mods[self.element].shot_speed
-			shot.acceleration = -10.0 * G.element_mods[self.element].shot_accel
-			shot.grav_mult = 1.0 * G.element_mods[self.element].shot_grav
-			shot.scale = Vector3.ONE * 0.5 * G.element_mods[self.element].shot_scale
-			shot.blast_radius = 0.5 * G.element_mods[self.element].blast_radius
-			shot.blast_force = 0.5 * G.element_mods[self.element].blast_force
-			shot.blast_lift = 0.125 * G.element_mods[self.element].blast_lift
+			shot.speed = 50.0 * G.element_mods_basic[self.element].shot_speed
+			shot.acceleration = -10.0 * G.element_mods_basic[self.element].shot_accel
+			shot.grav_mult = 1.0 * G.element_mods_basic[self.element].shot_grav
+			shot.scale = Vector3.ONE * 0.5 * G.element_mods_basic[self.element].shot_scale
+			shot.blast_radius = 0.5 * G.element_mods_basic[self.element].blast_radius
+			shot.blast_force = 0.5 * G.element_mods_basic[self.element].blast_force
+			shot.blast_lift = 0.125 * G.element_mods_basic[self.element].blast_lift
 	
 	shot.add_exception(self)
 	shot.position = position + $Head.position
@@ -165,7 +206,11 @@ func movement(delta: float):
 		physics_material_override.friction = 0.0
 		physics_material_override.rough = true
 	
-	apply_central_force(Vector3.DOWN * gravity)
+	if on_floor:
+		apply_central_force(Vector3.DOWN * gravity * 0.25)
+	else:
+		apply_central_force(Vector3.DOWN * gravity)
+	
 	if Input.is_action_just_pressed("jump") and on_floor:
 		apply_central_impulse(Vector3.UP * JUMP_VELOCITY)
 		#apply_central_impulse(Vector3(1,0,1) * -0.5)

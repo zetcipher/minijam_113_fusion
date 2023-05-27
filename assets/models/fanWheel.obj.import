@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://e57b6e3mmbcg"
+path="res://.godot/imported/fanWheel.obj-5e8a086838908e7d041b29bb12c4e411.mesh"
+
+[deps]
+
+files=["res://.godot/imported/fanWheel.obj-5e8a086838908e7d041b29bb12c4e411.mesh"]
+
+source_file="res://assets/models/fanWheel.obj"
+dest_files=["res://.godot/imported/fanWheel.obj-5e8a086838908e7d041b29bb12c4e411.mesh", "res://.godot/imported/fanWheel.obj-5e8a086838908e7d041b29bb12c4e411.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

@@ -1,4 +1,4 @@
-extends Area3D
+class_name Blast extends Area3D
 
 var element := 0
 

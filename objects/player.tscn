@@ -1,17 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://b1khm8vxgggo3"]
+[gd_scene load_steps=7 format=3 uid="uid://b1khm8vxgggo3"]
 
 [ext_resource type="Script" path="res://objects/player.gd" id="1_uonjx"]
 [ext_resource type="Texture2D" uid="uid://biax3kv2nruub" path="res://assets/textures/crosshair.png" id="2_61efj"]
 [ext_resource type="PackedScene" uid="uid://ch4k4jq2ngkjm" path="res://objects/beam.tscn" id="2_66qxj"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7a1tt"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3qk7x"]
 
-[node name="Player" type="CharacterBody3D"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6ttdt"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_uayoe"]
+height = 1.0
+radius = 0.48
+
+[node name="Player" type="RigidBody3D"]
+physics_material_override = SubResource("PhysicsMaterial_3qk7x")
+lock_rotation = true
 script = ExtResource("1_uonjx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CapsuleShape3D_7a1tt")
+shape = SubResource("CylinderShape3D_6ttdt")
 
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -91,3 +99,13 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_61efj")
+
+[node name="floor_cast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+target_position = Vector3(0, -0.5, 0)
+
+[node name="floor_detect" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor_detect"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+shape = SubResource("CylinderShape3D_uayoe")

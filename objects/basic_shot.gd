@@ -28,7 +28,8 @@ func _ready():
 	dir = dir.normalized()
 	$MeshInstance3D.rotation = self.rotation
 	self.rotation = Vector3.ZERO
-	$RayCast3D.target_position = dir * speed * (1 / 60) * 1.2
+	$RayCast3D.position = -dir * 2
+	$RayCast3D.target_position = dir * speed * (1 / 60) * 2.5
 	$RayCast3D2.target_position = dir * speed * (1 / 60) * 16
 
 
@@ -48,7 +49,8 @@ func _physics_process(delta):
 	if acceleration > 0.0:
 		speed += acceleration * delta
 	
-	$RayCast3D.target_position = dir * speed * delta * 1.2
+	$RayCast3D.position = -dir * 2
+	$RayCast3D.target_position = dir * speed * delta * 2.5
 	$RayCast3D2.target_position = dir * speed * delta * 16
 	
 	if time > 10.0:

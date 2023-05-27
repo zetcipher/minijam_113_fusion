@@ -3,7 +3,13 @@ extends Node
 enum Aspects {BASIC, HEAVY, BEAM, MELEE}
 enum Elements {FIRE, ICE, WIND, EARTH}
 
-var element_energy_use := [1.0, 1.0, 1.0, 1.0]
+var element_energy_use := [
+	[1.0, 0.66, 0.5, 1.5], # basic shot
+	[0.5, 0.75, 1.0, 1.0], # heavy shot
+	[1.0, 1.0, 2.0, 1.5], # beam
+	[1.0, 1.25, 0.5, 1.5], # melee
+	
+]
 var aspect_energy_use := [7.5, 33.4, 20.0, 20.0]
 
 var element_mods := [

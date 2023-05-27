@@ -1,9 +1,9 @@
-class_name Player extends CharacterBody3D
+class_name Player extends RigidBody3D
 
 const TOP_SPEED := 6.0
-const JUMP_VELOCITY := 6.0
-const ACCEL_GRND := 40.0
-const ACCEL_AIR := 6.67
+const JUMP_VELOCITY := 10.0
+const ACCEL_GRND := 50.0
+const ACCEL_AIR := 10.0
 const DECEL_GRND := 30.0
 const DECEL_AIR := 5.0
 
@@ -43,7 +43,8 @@ func _physics_process(delta):
 		beam.active = true
 		beam.monitorable = true
 		beam.monitorable = true
-		energy -= G.aspect_energy_use[shot_type] * G.element_energy_use[element] * delta
+		if element == 2: apply_central_force(Vector3((position + Vector3.UP) - $Head/Camera3D/Target.global_position) * 1.5)
+		energy -= G.aspect_energy_use[shot_type] * G.element_energy_use[shot_type][element] * delta
 		if energy <= 0.0:
 			energy = 0.0
 			must_refill = true
@@ -125,7 +126,7 @@ func shoot():
 	shot.target_pos = $Head/Camera3D/Target.global_position
 #	shot.rotation.x = self.rotation.x
 #	shot.rotation.y = cam.rotation.y
-	energy -= G.aspect_energy_use[shot_type] * G.element_energy_use[element]
+	energy -= G.aspect_energy_use[shot_type] * G.element_energy_use[shot_type][element]
 	if energy <= 0.0:
 		energy = 0.0
 		must_refill = true
@@ -136,12 +137,12 @@ func shoot():
 
 func can_spend_energy(aspect: int, element: int) -> bool:
 	if aspect == 2:
-		if energy >= G.aspect_energy_use[aspect] * G.element_energy_use[element] * (1 / 60):
+		if energy >= G.aspect_energy_use[shot_type][element] * G.element_energy_use[shot_type][element] * (1 / 60):
 			return true
 		else:
 			return false
 	else:
-		if energy >= G.aspect_energy_use[aspect] * G.element_energy_use[element]:
+		if energy >= G.aspect_energy_use[shot_type][element] * G.element_energy_use[shot_type][element]:
 			return true
 		else:
 			return false
@@ -149,48 +150,79 @@ func can_spend_energy(aspect: int, element: int) -> bool:
 
 
 func movement(delta: float):
-	# Add the gravity.
-	if not is_on_floor():
-		plr_force.y -= gravity * delta
-	velocity.y = env_force.y + plr_force.y
-
-	# Handle Jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		plr_force.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
-		if speed < TOP_SPEED:
-			if is_on_floor():
-				speed += ACCEL_GRND * delta
-			else:
-				speed += ACCEL_AIR * delta
-			if speed > TOP_SPEED: speed = TOP_SPEED
-	elif is_on_floor():
-		if speed > 0.0:
-			speed -= DECEL_GRND * delta
+	var floorcast := $floor_cast as RayCast3D
+	var floorarea := $floor_detect as Area3D
+	var on_floor := floorcast.is_colliding()
+	
+	if floorarea.get_overlapping_bodies().size() > 1:
+		on_floor = true
+		physics_material_override.friction = 1.0
+		physics_material_override.rough = false
 	else:
-		if speed > 0.0:
-			speed -= DECEL_AIR * delta
-	if speed < 0.0:
-		speed = 0.0
+		on_floor = false
+		physics_material_override.friction = 0.0
+		physics_material_override.rough = true
 	
-	if direction:
-		plr_force.x = direction.x * speed
-		plr_force.z = direction.z * speed
-	else:
-		plr_force.x = last_dir.x * speed
-		plr_force.z = last_dir.z * speed
+	apply_central_force(Vector3.DOWN * gravity)
+	if Input.is_action_just_pressed("jump") and on_floor:
+		apply_central_impulse(Vector3.UP * JUMP_VELOCITY)
+		#apply_central_impulse(Vector3(1,0,1) * -0.5)
 	
-	velocity.x = plr_force.x + env_force.x
-	velocity.z = plr_force.z + env_force.z
 	
-	if direction: last_dir = direction
-
-	move_and_slide()
+	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var direction := Vector3($Head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	
+	var h_vel := Vector3(linear_velocity.x, 0, linear_velocity.z)
+	
+	if direction.length() > 0.0 and h_vel.length() < TOP_SPEED:
+		if on_floor:
+			apply_central_force(direction * ACCEL_GRND)
+		else:
+			apply_central_force(direction * ACCEL_AIR)
+	
+	
+#	# Add the gravity.
+#	if not is_on_floor():
+#		plr_force.y -= gravity * delta
+#	velocity.y = env_force.y + plr_force.y
+#
+#	# Handle Jump.
+#	if Input.is_action_just_pressed("jump") and is_on_floor():
+#		plr_force.y = JUMP_VELOCITY
+#
+#	# Get the input direction and handle the movement/deceleration.
+#	# As good practice, you should replace UI actions with custom gameplay actions.
+#	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+#	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+#	if direction:
+#		if speed < TOP_SPEED:
+#			if is_on_floor():
+#				speed += ACCEL_GRND * delta
+#			else:
+#				speed += ACCEL_AIR * delta
+#			if speed > TOP_SPEED: speed = TOP_SPEED
+#	elif is_on_floor():
+#		if speed > 0.0:
+#			speed -= DECEL_GRND * delta
+#	else:
+#		if speed > 0.0:
+#			speed -= DECEL_AIR * delta
+#	if speed < 0.0:
+#		speed = 0.0
+#
+#	if direction:
+#		plr_force.x = direction.x * speed
+#		plr_force.z = direction.z * speed
+#	else:
+#		plr_force.x = last_dir.x * speed
+#		plr_force.z = last_dir.z * speed
+#
+#	velocity.x = plr_force.x + env_force.x
+#	velocity.z = plr_force.z + env_force.z
+#
+#	if direction: last_dir = direction
+#
+#	move_and_slide()
 
 
 func _input(event):
@@ -199,7 +231,7 @@ func _input(event):
 	
 	var ev := event as InputEventMouseMotion
 	
-	rotation.y -= ev.relative.x * 0.001 * cam_sens.x
+	$Head.rotation.y -= ev.relative.x * 0.001 * cam_sens.x
 	cam.rotation.x -= ev.relative.y * 0.001 * cam_sens.y
 	cam.rotation.x = clamp(cam.rotation.x, deg_to_rad(-89), deg_to_rad(89))
 	

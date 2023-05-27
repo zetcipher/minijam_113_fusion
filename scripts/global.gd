@@ -109,7 +109,7 @@ var element_mods_heavy := [
 
 var basic_shot := preload("res://objects/basic_shot.tscn")
 
-var blast := preload("res://materials/object/blast.tscn")
+var blast := preload("res://objects/blast.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

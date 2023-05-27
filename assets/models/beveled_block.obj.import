@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://ccpbxnonkbk8f"
+path="res://.godot/imported/beveled_block.obj-f2540911ea782c7d64ba7f6ec6e23eee.mesh"
+
+[deps]
+
+files=["res://.godot/imported/beveled_block.obj-f2540911ea782c7d64ba7f6ec6e23eee.mesh"]
+
+source_file="res://assets/models/beveled_block.obj"
+dest_files=["res://.godot/imported/beveled_block.obj-f2540911ea782c7d64ba7f6ec6e23eee.mesh", "res://.godot/imported/beveled_block.obj-f2540911ea782c7d64ba7f6ec6e23eee.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

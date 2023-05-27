@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bg1umq48h1i6o"]
+[gd_scene load_steps=35 format=3 uid="uid://bg1umq48h1i6o"]
 
 [ext_resource type="Texture2D" uid="uid://c50m2wdr1wta0" path="res://assets/textures/checkerboard.png" id="1_emwne"]
 [ext_resource type="PackedScene" uid="uid://b1khm8vxgggo3" path="res://objects/player.tscn" id="2_olev3"]
@@ -9,6 +9,7 @@
 [ext_resource type="Material" uid="uid://dm1r8s7in5f6v" path="res://materials/environment/graybox.tres" id="7_01m3b"]
 [ext_resource type="PackedScene" uid="uid://jkpkstd152fy" path="res://objects/power_pedestal.tscn" id="8_ae4hk"]
 [ext_resource type="PackedScene" uid="uid://b2ylkj764y6km" path="res://objects/flame_torch.tscn" id="9_lgjkv"]
+[ext_resource type="PackedScene" uid="uid://ffkit8lu7snt" path="res://objects/rock_wall.tscn" id="10_t3mku"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85217"]
 
@@ -433,3 +434,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 4)
 [node name="FlameTorch2" parent="WorldEnvironment/Interactables" instance=ExtResource("9_lgjkv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 7)
 activated = true
+
+[node name="RockWall" parent="WorldEnvironment/Interactables" instance=ExtResource("10_t3mku")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16)

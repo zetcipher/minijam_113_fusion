@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://p0fpucaxeorb"]
 
-[ext_resource type="Script" path="res://materials/object/blast.gd" id="1_nj3j2"]
-[ext_resource type="Texture2D" uid="uid://nkfox0cmsdm2" path="res://assets/textures/flameFX.png" id="1_v6413"]
+[ext_resource type="Script" path="res://objects/blast.gd" id="1_m5m0l"]
+[ext_resource type="Texture2D" uid="uid://nkfox0cmsdm2" path="res://assets/textures/flameFX.png" id="2_gobkb"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5xe1o"]
 radius = 1.0
@@ -13,7 +13,7 @@ alpha_hash_scale = 1.0
 alpha_antialiasing_mode = 0
 cull_mode = 2
 shading_mode = 0
-albedo_texture = ExtResource("1_v6413")
+albedo_texture = ExtResource("2_gobkb")
 uv1_scale = Vector3(1, -1, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_uti6t"]
@@ -107,7 +107,7 @@ _data = {
 [node name="Blast" type="Area3D"]
 collision_layer = 9
 collision_mask = 9
-script = ExtResource("1_nj3j2")
+script = ExtResource("1_m5m0l")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_5xe1o")

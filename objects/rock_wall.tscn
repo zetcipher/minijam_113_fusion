@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://ffkit8lu7snt"]
+
+[ext_resource type="Material" uid="uid://bgcxukchv26my" path="res://materials/object/Stone.tres" id="1_ilboa"]
+[ext_resource type="ArrayMesh" uid="uid://bxiwd2htgh0w7" path="res://assets/models/rockWall.obj" id="2_td4nq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jdavo"]
+size = Vector3(6, 6, 2.5)
+
+[node name="RockWall" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_jdavo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = ExtResource("1_ilboa")
+mesh = ExtResource("2_td4nq")

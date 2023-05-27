@@ -28,16 +28,26 @@ func _ready():
 	dir = dir.normalized()
 	$MeshInstance3D.rotation = self.rotation
 	self.rotation = Vector3.ZERO
-	$RayCast3D.position = -dir * 2
-	$RayCast3D.target_position = dir * speed * (1 / 60) * 2.5
-	$RayCast3D2.target_position = dir * speed * (1 / 60) * 16
+	$RayCast3D.position = -dir * speed * (1 / 60) * 0.1
+	$RayCast3D.target_position = dir * speed * (1 / 60) * 1.1
+	$RayCast3D2.position = -dir * speed * (1 / 60) * 0.1
+	$RayCast3D2.target_position = dir * speed * (1 / 60) * 1.1
 
+func add_exception(object: CollisionObject3D):
+	$RayCast3D2.add_exception(object)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	if $RayCast3D.is_colliding():
-		blast()
-		return
+	var collision := false
+	for body in get_overlapping_bodies():
+		if not body is Player:
+			blast()
+			return
+	
+	if $RayCast3D2.is_colliding():
+		if not $RayCast3D2.get_collider() is Player:
+			blast()
+			return
 	
 	position += dir * speed * delta
 	y_vel -= gravity * grav_mult * delta
@@ -49,9 +59,10 @@ func _physics_process(delta):
 	if acceleration > 0.0:
 		speed += acceleration * delta
 	
-	$RayCast3D.position = -dir * 2
-	$RayCast3D.target_position = dir * speed * delta * 2.5
-	$RayCast3D2.target_position = dir * speed * delta * 16
+	$RayCast3D.position = -dir * speed * delta * 0.1
+	$RayCast3D.target_position = dir * speed * delta * 1.1
+	$RayCast3D2.position = -dir * speed * delta * 0.1
+	$RayCast3D2.target_position = dir * speed * delta * 1.1
 	
 	if time > 10.0:
 		self.queue_free()

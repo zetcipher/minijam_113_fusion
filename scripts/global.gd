@@ -26,9 +26,9 @@ var element_mods := [
 		damage = 1.0,
 	},
 	{ # ice
-		shot_speed = 1.0,
-		shot_grav = 1.0,
-		shot_accel = 1.0,
+		shot_speed = 0.2,
+		shot_grav = 0.0,
+		shot_accel = 0.0,
 		shot_scale = 1.0,
 		blast_radius = 1.0,
 		blast_force = 1.0,

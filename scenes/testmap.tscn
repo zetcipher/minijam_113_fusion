@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bg1umq48h1i6o"]
+[gd_scene load_steps=29 format=3 uid="uid://bg1umq48h1i6o"]
 
 [ext_resource type="Texture2D" uid="uid://c50m2wdr1wta0" path="res://assets/textures/checkerboard.png" id="1_emwne"]
 [ext_resource type="PackedScene" uid="uid://b1khm8vxgggo3" path="res://objects/player.tscn" id="2_olev3"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://addons/cyclops_level_builder/nodes/cyclops_convex_block.gd" id="5_gjmvf"]
 [ext_resource type="Script" path="res://addons/cyclops_level_builder/resources/convex_block_data.gd" id="6_6yn6q"]
 [ext_resource type="Material" uid="uid://dm1r8s7in5f6v" path="res://materials/environment/graybox.tres" id="7_01m3b"]
+[ext_resource type="PackedScene" uid="uid://jkpkstd152fy" path="res://objects/power_pedestal.tscn" id="8_ae4hk"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85217"]
 
@@ -251,38 +252,43 @@ mesh = SubResource("BoxMesh_xop5k")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WorldEnvironment/RigidBody3D"]
 shape = SubResource("BoxShape3D_7ompl")
 
-[node name="CyclopsBlocks" type="Node3D" parent="."]
+[node name="CyclopsBlocks" type="Node3D" parent="WorldEnvironment"]
 script = ExtResource("4_c57jq")
 
-[node name="Block_0" type="Node" parent="CyclopsBlocks"]
+[node name="Block_0" type="Node" parent="WorldEnvironment/CyclopsBlocks"]
 script = ExtResource("5_gjmvf")
 block_data = SubResource("Resource_giqif")
 
-[node name="Block_1" type="Node" parent="CyclopsBlocks"]
+[node name="Block_1" type="Node" parent="WorldEnvironment/CyclopsBlocks"]
 script = ExtResource("5_gjmvf")
 block_data = SubResource("Resource_5b7bh")
 
-[node name="Block_2" type="Node" parent="CyclopsBlocks"]
+[node name="Block_2" type="Node" parent="WorldEnvironment/CyclopsBlocks"]
 script = ExtResource("5_gjmvf")
 block_data = SubResource("Resource_gg3uq")
 
-[node name="Block_3" type="Node" parent="CyclopsBlocks"]
+[node name="Block_3" type="Node" parent="WorldEnvironment/CyclopsBlocks"]
 script = ExtResource("5_gjmvf")
 block_data = SubResource("Resource_or0sg")
 
-[node name="Block_4" type="Node" parent="CyclopsBlocks"]
+[node name="Block_4" type="Node" parent="WorldEnvironment/CyclopsBlocks"]
 script = ExtResource("5_gjmvf")
 block_data = SubResource("Resource_tl7co")
 
-[node name="Block_5" type="Node" parent="CyclopsBlocks"]
+[node name="Block_5" type="Node" parent="WorldEnvironment/CyclopsBlocks"]
 script = ExtResource("5_gjmvf")
 block_data = SubResource("Resource_c2tqm")
 
-[node name="Block_6" type="Node" parent="CyclopsBlocks"]
+[node name="Block_6" type="Node" parent="WorldEnvironment/CyclopsBlocks"]
 script = ExtResource("5_gjmvf")
 materials = Array[Material]([ExtResource("7_01m3b")])
 block_data = SubResource("Resource_cw4s7")
 
-[node name="Block_7" type="Node" parent="CyclopsBlocks"]
+[node name="Block_7" type="Node" parent="WorldEnvironment/CyclopsBlocks"]
 script = ExtResource("5_gjmvf")
 block_data = SubResource("Resource_a7u73")
+
+[node name="Pedestals" type="Node3D" parent="WorldEnvironment"]
+
+[node name="PowerPedestal" parent="WorldEnvironment/Pedestals" instance=ExtResource("8_ae4hk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 6, -12)

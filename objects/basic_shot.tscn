@@ -24,9 +24,9 @@ material_override = SubResource("StandardMaterial3D_g1a56")
 mesh = SubResource("SphereMesh_1yicf")
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
-collision_mask = 2
+target_position = Vector3(0, 0, 0)
 
 [node name="RayCast3D2" type="RayCast3D" parent="."]
-collision_mask = 2
+target_position = Vector3(0, 0, 0)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

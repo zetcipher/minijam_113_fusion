@@ -15,7 +15,7 @@ var last_dir := Vector3.ZERO
 
 var energy := 100.0
 var using_energy := false
-var energy_regen := 50.0
+var energy_regen := 200.0
 var must_refill := false
 var regen_delay := 0.0
 
@@ -39,6 +39,7 @@ func _physics_process(delta):
 	
 	if Input.is_action_pressed("shoot") and shot_type == 2 and not must_refill:
 		var beam = $Body/Beam as Area3D
+		beam.set_element(element)
 		beam.show()
 		beam.active = true
 		beam.monitorable = true
@@ -121,8 +122,9 @@ func shoot():
 			shot.blast_force = 0.5 * G.element_mods[self.element].blast_force
 			shot.blast_lift = 0.125 * G.element_mods[self.element].blast_lift
 	
+	shot.add_exception(self)
 	shot.position = position + $Head.position
-	shot.look_at($Head/Camera3D/Target.position, Vector3.UP)
+	#shot.look_at_from_position($Head.position, $Head/Camera3D/Target.position, Vector3.UP)
 	shot.target_pos = $Head/Camera3D/Target.global_position
 #	shot.rotation.x = self.rotation.x
 #	shot.rotation.y = cam.rotation.y

@@ -1,12 +1,50 @@
-[gd_scene load_steps=4 format=3 uid="uid://ch4k4jq2ngkjm"]
+[gd_scene load_steps=8 format=3 uid="uid://ch4k4jq2ngkjm"]
 
 [ext_resource type="Script" path="res://objects/beam.gd" id="1_3fa8p"]
+[ext_resource type="Material" uid="uid://dmvuphrdc02fa" path="res://materials/object/beam.tres" id="2_fqxmp"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8amy5"]
 size = Vector3(0.25, 0.25, 10)
 
 [sub_resource type="BoxMesh" id="BoxMesh_m68ii"]
 size = Vector3(0.25, 0.25, 10)
+
+[sub_resource type="Animation" id="Animation_2mwp7"]
+resource_name = "beam_scroll"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:material_override:uv1_offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-1, -1, -1)]
+}
+
+[sub_resource type="Animation" id="Animation_q2xhm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:material_override:uv1_offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y1k1j"]
+_data = {
+"RESET": SubResource("Animation_q2xhm"),
+"beam_scroll": SubResource("Animation_2mwp7")
+}
 
 [node name="Beam" type="Area3D"]
 script = ExtResource("1_3fa8p")
@@ -17,6 +55,12 @@ shape = SubResource("BoxShape3D_8amy5")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0, 0, -5)
+material_override = ExtResource("2_fqxmp")
 mesh = SubResource("BoxMesh_m68ii")
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_y1k1j")
+}

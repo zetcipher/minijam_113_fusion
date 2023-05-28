@@ -1,8 +1,8 @@
 class_name Player extends RigidBody3D
 
 const TOP_SPEED := 6.0
-const JUMP_VELOCITY := 10.0
-const ACCEL_GRND := 50.0
+const JUMP_VELOCITY := 15.0
+const ACCEL_GRND := 100.0
 const ACCEL_AIR := 10.0
 const DECEL_GRND := 30.0
 const DECEL_AIR := 5.0
@@ -27,6 +27,8 @@ var element := 0
 
 var cam_sens := Vector2(3,3)
 
+var water_zones := 0
+
 
 @onready var cam := $Head/Camera3D as Camera3D
 
@@ -47,10 +49,10 @@ func _physics_process(delta):
 		beam.active = true
 		beam.monitorable = true
 		beam.monitorable = true
-		if element == 2 and $Head/Camera3D/RayCast3D.is_colliding() and Vector3(linear_velocity.x, 0.0, linear_velocity.z).length() < 25.0: 
-			apply_central_force(Vector3((position + Vector3.UP) - $Head/Camera3D/Target.global_position) * 1.5)
-		if element == 3 and $Head/Camera3D/RayCast3D.is_colliding() and Vector3(linear_velocity.x, 0.0, linear_velocity.z).length() < 25.0: 
-			apply_central_force(Vector3($Head/Camera3D/Target.global_position - (position + Vector3.UP)) * 1.5)
+		if element == 2 and $Head/Camera3D/RayCast3D.is_colliding() and Vector3(linear_velocity.x, 0.0, linear_velocity.z).length() < 20.0: 
+			apply_central_force(Vector3((position + Vector3.UP) - $Head/Camera3D/Target.global_position) * 2.0)
+		if element == 3 and $Head/Camera3D/RayCast3D.is_colliding() and Vector3(linear_velocity.x, 0.0, linear_velocity.z).length() < 20.0: 
+			apply_central_force(Vector3($Head/Camera3D/Target.global_position - (position + Vector3.UP)) * 2.0)
 		energy -= G.aspect_energy_use[shot_type] * G.element_energy_use[shot_type][element] * delta
 		if energy <= 0.0:
 			energy = 0.0
@@ -161,6 +163,8 @@ func shoot():
 			shot.blast_force = 3.5 * G.element_mods_heavy[self.element].blast_force
 			shot.blast_lift = 1.0 * G.element_mods_heavy[self.element].blast_lift
 			shot.destruction_power = G.element_mods_heavy[self.element].destruction_power
+			shot.freeze_power = G.element_mods_heavy[self.element].freeze_power
+			shot.burn_power = G.element_mods_heavy[self.element].burn_power
 		_:
 			shot.speed = 50.0 * G.element_mods_basic[self.element].shot_speed
 			shot.acceleration = -10.0 * G.element_mods_basic[self.element].shot_accel
@@ -170,6 +174,8 @@ func shoot():
 			shot.blast_force = 0.5 * G.element_mods_basic[self.element].blast_force
 			shot.blast_lift = 0.125 * G.element_mods_basic[self.element].blast_lift
 			shot.destruction_power = G.element_mods_basic[self.element].destruction_power
+			shot.freeze_power = G.element_mods_basic[self.element].freeze_power
+			shot.burn_power = G.element_mods_basic[self.element].burn_power
 	
 	shot.add_exception(self)
 	shot.position = position + $Head.position
@@ -214,14 +220,18 @@ func movement(delta: float):
 		physics_material_override.friction = 0.0
 		physics_material_override.rough = true
 	
-	if on_floor:
-		apply_central_force(Vector3.DOWN * gravity * 0.25)
-	else:
-		apply_central_force(Vector3.DOWN * gravity)
+#	if on_floor:
+#		apply_central_force(Vector3.DOWN * gravity * 0.25)
+#	else:
+#		apply_central_force(Vector3.DOWN * gravity)
 	
-	if Input.is_action_just_pressed("jump") and on_floor:
+	if Input.is_action_just_pressed("jump") and on_floor and not water_zones:
 		apply_central_impulse(Vector3.UP * JUMP_VELOCITY)
 		#apply_central_impulse(Vector3(1,0,1) * -0.5)
+	if Input.is_action_just_pressed("jump") and water_zones and linear_velocity.y < 3.5:
+		apply_central_impulse(Vector3.UP * JUMP_VELOCITY * 0.5)
+	if Input.is_action_pressed("jump") and water_zones and linear_velocity.y < 5.0:
+		apply_central_force(Vector3.UP * gravity * 0.5)
 	
 	
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")

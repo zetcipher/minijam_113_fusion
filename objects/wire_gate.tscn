@@ -1,0 +1,82 @@
+[gd_scene load_steps=16 format=3 uid="uid://ly7d3355raji"]
+
+[ext_resource type="Material" uid="uid://lk4h80fhqt75" path="res://materials/environment/brushed_metal.tres" id="1_3y5sf"]
+[ext_resource type="Script" path="res://objects/wire_gate.gd" id="1_p1tp8"]
+[ext_resource type="Material" uid="uid://60tauhurpnwn" path="res://materials/object/indicator_light_red.tres" id="3_1gkey"]
+[ext_resource type="Shader" path="res://shaders/spatial/indicatorLight.gdshader" id="3_w6udd"]
+[ext_resource type="Material" uid="uid://gfmyry4j6e84" path="res://materials/object/indicator_light_green.tres" id="4_51mg3"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_63l51"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u84xq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gcb7w"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_w6udd")
+shader_parameter/on = false
+shader_parameter/off_color = Color(0.25, 0, 0, 1)
+shader_parameter/on_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_frpf1"]
+size = Vector3(0.25, 0.25, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4e6h1"]
+size = Vector3(0.25, 0.25, 0.25)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0481j"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mst1o"]
+height = 256
+as_normal_map = true
+noise = SubResource("FastNoiseLite_0481j")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_elhnr"]
+albedo_color = Color(0.294118, 0.294118, 0.294118, 1)
+metallic_specular = 0.37
+roughness = 0.74
+normal_enabled = true
+normal_texture = SubResource("NoiseTexture2D_mst1o")
+
+[sub_resource type="BoxMesh" id="BoxMesh_dl8ck"]
+material = SubResource("StandardMaterial3D_elhnr")
+size = Vector3(0.75, 0.25, 0.125)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lcikj"]
+size = Vector3(0.5, 0.25, 0.5)
+
+[node name="WireGate" type="Node3D"]
+script = ExtResource("1_p1tp8")
+
+[node name="Box" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+material_override = ExtResource("1_3y5sf")
+mesh = SubResource("BoxMesh_63l51")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Box"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box/StaticBody3D"]
+shape = SubResource("BoxShape3D_u84xq")
+
+[node name="LightA" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.7, 0.5)
+material_override = SubResource("ShaderMaterial_gcb7w")
+mesh = SubResource("BoxMesh_frpf1")
+
+[node name="LightB" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.7, 0.5)
+material_override = ExtResource("3_1gkey")
+mesh = SubResource("BoxMesh_4e6h1")
+
+[node name="Descriptor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0.5)
+mesh = SubResource("BoxMesh_dl8ck")
+
+[node name="Label3D" type="Label3D" parent="Descriptor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0683547)
+text = "A NOT B"
+
+[node name="LightC" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = ExtResource("4_51mg3")
+mesh = SubResource("BoxMesh_lcikj")

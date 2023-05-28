@@ -89,7 +89,7 @@ scroll_aspect_back={
 
 [physics]
 
-3d/default_gravity=14.7
+3d/default_gravity=19.6
 
 [rendering]
 

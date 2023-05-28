@@ -1,7 +1,5 @@
 extends StaticBody3D
 
-var destroyed := false
-var timer := 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -10,17 +8,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if destroyed and timer < 1.0:
-		timer += delta
-	elif destroyed: queue_free()
+	pass
 
 
 func _on_area_3d_area_entered(area):
 	if not area is Blast: return
 	var blast := area as Blast
-	if blast.destruction_power >= 1.0:
-		destroyed = true
-		$GPUParticles3D.emitting = true
-		set_collision_layer_value(0, false)
-		set_collision_mask_value(0, false)
-		$MeshInstance3D.hide()
+	if blast.burn_power >= 2.0:
+		self.queue_free()

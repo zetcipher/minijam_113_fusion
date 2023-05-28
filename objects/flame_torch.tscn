@@ -31,9 +31,9 @@ shader_parameter/noise_tex = SubResource("NoiseTexture2D_0b386")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_wsq7w"]
 top_radius = 0.05
-bottom_radius = 0.2
+bottom_radius = 0.25
 height = 0.75
-radial_segments = 8
+radial_segments = 4
 cap_top = false
 cap_bottom = false
 
@@ -52,7 +52,7 @@ surface_material_override/0 = ExtResource("2_7ay4v")
 surface_material_override/1 = SubResource("StandardMaterial3D_34uq4")
 
 [node name="FlameMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.31126, 0)
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 1.35254, 0)
 material_override = SubResource("ShaderMaterial_kymui")
 mesh = SubResource("CylinderMesh_wsq7w")
 

@@ -31,17 +31,21 @@ var element_mods_basic := [
 		blast_force = 0.2,
 		blast_lift = 0.3,
 		destruction_power = 0.0,
+		freeze_power = 0.0,
+		burn_power = 1.0,
 		damage = 1.0,
 	},
 	{ # ice
-		shot_speed = 0.2,
-		shot_grav = 0.0,
-		shot_accel = 0.0,
+		shot_speed = 0.75,
+		shot_grav = 1.5,
+		shot_accel = 1.5,
 		shot_scale = 1.0,
 		blast_radius = 1.0,
 		blast_force = 0.1,
 		blast_lift = 0.1,
 		destruction_power = 0.0,
+		freeze_power = 0.25,
+		burn_power = 0.0,
 		damage = 1.5,
 	},
 	{ # wind
@@ -53,6 +57,8 @@ var element_mods_basic := [
 		blast_force = 4.0,
 		blast_lift = 3.0,
 		destruction_power = 0.0,
+		freeze_power = 0.0,
+		burn_power = 0.0,
 		damage = 0.25,
 	},
 	{ # earth
@@ -64,6 +70,8 @@ var element_mods_basic := [
 		blast_force = 1.0,
 		blast_lift = 1.0,
 		destruction_power = 0.0,
+		freeze_power = 0.0,
+		burn_power = 0.0,
 		damage = 2.5,
 	},
 ]
@@ -75,20 +83,24 @@ var element_mods_heavy := [
 		shot_accel = 1.0,
 		shot_scale = 1.0,
 		blast_radius = 1.0,
-		blast_force = 0.5,
-		blast_lift = 0.5,
+		blast_force = 0.25,
+		blast_lift = 0.25,
 		destruction_power = 0.0,
+		freeze_power = 0.0,
+		burn_power = 2.0,
 		damage = 1.0,
 	},
 	{ # ice
-		shot_speed = 0.2,
-		shot_grav = 0.0,
-		shot_accel = 0.0,
+		shot_speed = 1.0,
+		shot_grav = 1.5,
+		shot_accel = 1.5,
 		shot_scale = 1.0,
 		blast_radius = 1.0,
 		blast_force = 0.1,
 		blast_lift = 0.1,
 		destruction_power = 0.0,
+		freeze_power = 2.0,
+		burn_power = 0.0,
 		damage = 1.5,
 	},
 	{ # wind
@@ -98,8 +110,10 @@ var element_mods_heavy := [
 		shot_scale = 1.5,
 		blast_radius = 1.5,
 		blast_force = 2.0,
-		blast_lift = 5.0,
+		blast_lift = 4.5,
 		destruction_power = 0.0,
+		freeze_power = 0.0,
+		burn_power = 0.0,
 		damage = 0.25,
 	},
 	{ # earth
@@ -111,6 +125,8 @@ var element_mods_heavy := [
 		blast_force = -1.0,
 		blast_lift = 0.5,
 		destruction_power = 1.0,
+		freeze_power = 0.0,
+		burn_power = 0.0,
 		damage = 2.5,
 	},
 ]
@@ -123,6 +139,8 @@ var fire_blast := preload("res://objects/fire_blast.tscn")
 var ice_blast := preload("res://objects/ice_blast.tscn")
 var wind_blast := preload("res://objects/wind_blast.tscn")
 var earth_blast := preload("res://objects/earth_blast.tscn")
+
+var ice_plat := preload("res://objects/ice_platform.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

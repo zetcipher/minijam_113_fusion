@@ -1,0 +1,24 @@
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://be30wtjq8i8m6"]
+
+[ext_resource type="Shader" path="res://shaders/spatial/water.gdshader" id="1_5kv3t"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_7o8np"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mqb8q"]
+seamless = true
+noise = SubResource("FastNoiseLite_7o8np")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_qkwfc"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gq6st"]
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_qkwfc")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_5kv3t")
+shader_parameter/color = Color(0.0980392, 0.298039, 0.501961, 0.509804)
+shader_parameter/displacement = 0.25
+shader_parameter/noise = SubResource("NoiseTexture2D_mqb8q")
+shader_parameter/normalmap = SubResource("NoiseTexture2D_gq6st")

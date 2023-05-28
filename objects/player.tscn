@@ -13,6 +13,7 @@ height = 1.0
 radius = 0.48
 
 [node name="Player" type="RigidBody3D"]
+mass = 2.0
 physics_material_override = SubResource("PhysicsMaterial_3qk7x")
 lock_rotation = true
 script = ExtResource("1_uonjx")

@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://60tauhurpnwn"]
+
+[ext_resource type="Shader" path="res://shaders/spatial/indicatorLight.gdshader" id="1_bhka8"]
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_bhka8")
+shader_parameter/on = false
+shader_parameter/off_color = Color(0.25, 0, 0, 1)
+shader_parameter/on_color = Color(1, 0, 0, 1)

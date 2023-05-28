@@ -1,0 +1,45 @@
+[gd_scene load_steps=9 format=3 uid="uid://d386ecvp5ohag"]
+
+[ext_resource type="Script" path="res://objects/ice_platform.gd" id="1_je0aa"]
+[ext_resource type="FastNoiseLite" uid="uid://bp3gvpsyfn7qb" path="res://others/ice_noise0.tres" id="1_odhar"]
+[ext_resource type="ArrayMesh" uid="uid://b3y03lf423uql" path="res://assets/models/icePlatform.obj" id="2_oe0sn"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vimrj"]
+height = 0.5
+radius = 2.0
+
+[sub_resource type="Gradient" id="Gradient_oafwt"]
+colors = PackedColorArray(0.4977, 0.59472, 0.63, 1, 1, 1, 1, 1)
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5pie1"]
+seamless = true
+color_ramp = SubResource("Gradient_oafwt")
+noise = ExtResource("1_odhar")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2grly"]
+as_normal_map = true
+bump_strength = 4.6
+noise = ExtResource("1_odhar")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ljajg"]
+albedo_texture = SubResource("NoiseTexture2D_5pie1")
+normal_enabled = true
+normal_texture = SubResource("NoiseTexture2D_2grly")
+
+[node name="IcePlatform" type="StaticBody3D"]
+script = ExtResource("1_je0aa")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_vimrj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_ljajg")
+mesh = ExtResource("2_oe0sn")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("CylinderShape3D_vimrj")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

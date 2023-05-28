@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://f80xiy00c5j4"]
+
+[ext_resource type="Script" path="res://objects/wiring_component.gd" id="1_xttyp"]
+
+[node name="WiringComponent" type="Node3D"]
+script = ExtResource("1_xttyp")

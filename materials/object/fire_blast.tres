@@ -1,0 +1,22 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://cy8vbwc2v7mbd"]
+
+[ext_resource type="Shader" path="res://shaders/spatial/fire.gdshader" id="1_hu2b7"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gd2pm"]
+fractal_octaves = 4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7xrv8"]
+seamless = true
+noise = SubResource("FastNoiseLite_gd2pm")
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_hu2b7")
+shader_parameter/root_color = Color(1, 0.75, 0.3, 1)
+shader_parameter/tip_color = Color(1, 0.03, 0.001, 1)
+shader_parameter/fire_alpha = 1.0
+shader_parameter/fire_speed = Vector2(0.2, 0.1)
+shader_parameter/fire_aperture = -1.0
+shader_parameter/alpha_hash_scale = 0.921
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_7xrv8")

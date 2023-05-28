@@ -114,6 +114,7 @@ shape = SubResource("SphereShape3D_5xe1o")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+visible = false
 material_override = SubResource("StandardMaterial3D_4nk6v")
 mesh = SubResource("SphereMesh_uti6t")
 

@@ -1,6 +1,7 @@
 class_name BasicProjectile extends Area3D
 
 var element := 0
+var destruction_power := 0.0
 
 var target_pos := Vector3.ZERO
 var speed := 20.0
@@ -70,15 +71,26 @@ func blast():
 	blast_pos = $RayCast3D2.get_collision_point()
 	#print(blast_pos)
 	var blast := G.blast.instantiate()
+	var effect : MeshInstance3D
+	match element:
+		1: effect = G.ice_blast.instantiate()
+		2: effect = G.wind_blast.instantiate()
+		3: effect = G.earth_blast.instantiate()
+		_: effect = G.fire_blast.instantiate()
 	blast.element = element
+	blast.destruction_power = destruction_power
 	if blast_pos == Vector3.ZERO:
 		blast.position = position
+		effect.position = position
 	else:
 		blast.position = blast_pos
+		effect.position = blast_pos
 	blast.scale *= blast_radius
+	effect.scale *= blast_radius
 	blast.blast_force = blast_force
 	blast.lift_force = blast_lift
 	get_parent().add_child(blast)
+	get_parent().add_child(effect)
 	self.queue_free()
 
 func _on_body_entered(body):

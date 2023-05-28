@@ -25,13 +25,15 @@ shader_parameter/root_color = Color(1, 0.75, 0.3, 1)
 shader_parameter/tip_color = Color(1, 0.03, 0.001, 1)
 shader_parameter/fire_alpha = 1.0
 shader_parameter/fire_speed = Vector2(0, 1)
-shader_parameter/fire_aperture = 0.22
+shader_parameter/fire_aperture = 0.13
+shader_parameter/alpha_hash_scale = 1.0
 shader_parameter/noise_tex = SubResource("NoiseTexture2D_0b386")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_wsq7w"]
-top_radius = 0.1
+top_radius = 0.05
 bottom_radius = 0.2
 height = 0.75
+radial_segments = 8
 cap_top = false
 cap_bottom = false
 

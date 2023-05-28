@@ -13,7 +13,9 @@ uniform vec4 tip_color : source_color = vec4( 1.0, 0.03, 0.001, 1.0 );
 
 uniform float fire_alpha : hint_range( 0.0, 1.0 ) = 1.0;
 uniform vec2 fire_speed = vec2( 0.0, 1.0 );
-uniform float fire_aperture : hint_range( 0.0, 3.0 ) = 0.22;
+uniform float fire_aperture : hint_range( -1.0, 3.0 ) = 0.22;
+
+uniform float alpha_hash_scale;
 
 void fragment( )
 {
@@ -24,4 +26,5 @@ void fragment( )
 
 	ALPHA = clamp( noise, 0.0, 1.0 ) * fire_alpha;
 	ALBEDO = fire_color.rgb;
+	ALPHA_HASH_SCALE = alpha_hash_scale;
 }

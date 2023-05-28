@@ -1,12 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://ffkit8lu7snt"]
+[gd_scene load_steps=7 format=3 uid="uid://ffkit8lu7snt"]
 
 [ext_resource type="Material" uid="uid://bgcxukchv26my" path="res://materials/object/Stone.tres" id="1_ilboa"]
+[ext_resource type="Script" path="res://objects/rock_wall.gd" id="1_sqjos"]
 [ext_resource type="ArrayMesh" uid="uid://bxiwd2htgh0w7" path="res://assets/models/rockWall.obj" id="2_td4nq"]
+[ext_resource type="Material" uid="uid://dfoh0cfxky8d2" path="res://materials/particleProcess/explosion0.tres" id="4_eglf8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jdavo"]
 size = Vector3(6, 6, 2.5)
 
+[sub_resource type="SphereMesh" id="SphereMesh_qvhrr"]
+material = ExtResource("1_ilboa")
+radius = 0.25
+height = 0.5
+radial_segments = 6
+rings = 2
+
 [node name="RockWall" type="StaticBody3D"]
+script = ExtResource("1_sqjos")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
@@ -15,3 +25,22 @@ shape = SubResource("BoxShape3D_jdavo")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 material_override = ExtResource("1_ilboa")
 mesh = ExtResource("2_td4nq")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_jdavo")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+emitting = false
+amount = 32
+one_shot = true
+explosiveness = 1.0
+process_material = ExtResource("4_eglf8")
+draw_pass_1 = SubResource("SphereMesh_qvhrr")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

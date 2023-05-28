@@ -15,7 +15,7 @@ var last_dir := Vector3.ZERO
 
 var energy := 100.0
 var using_energy := false
-var energy_regen := 200.0
+var energy_regen := 100.0
 var must_refill := false
 var regen_delay := 0.0
 
@@ -47,8 +47,10 @@ func _physics_process(delta):
 		beam.active = true
 		beam.monitorable = true
 		beam.monitorable = true
-		if element == 2 and $Head/Camera3D/RayCast3D.is_colliding(): apply_central_force(Vector3((position + Vector3.UP) - $Head/Camera3D/Target.global_position) * 1.5)
-		if element == 3 and $Head/Camera3D/RayCast3D.is_colliding(): apply_central_force(Vector3($Head/Camera3D/Target.global_position - (position + Vector3.UP)) * 1.5)
+		if element == 2 and $Head/Camera3D/RayCast3D.is_colliding() and Vector3(linear_velocity.x, 0.0, linear_velocity.z).length() < 25.0: 
+			apply_central_force(Vector3((position + Vector3.UP) - $Head/Camera3D/Target.global_position) * 1.5)
+		if element == 3 and $Head/Camera3D/RayCast3D.is_colliding() and Vector3(linear_velocity.x, 0.0, linear_velocity.z).length() < 25.0: 
+			apply_central_force(Vector3($Head/Camera3D/Target.global_position - (position + Vector3.UP)) * 1.5)
 		energy -= G.aspect_energy_use[shot_type] * G.element_energy_use[shot_type][element] * delta
 		if energy <= 0.0:
 			energy = 0.0
@@ -62,6 +64,10 @@ func _physics_process(delta):
 		beam.monitorable = false
 		beam.monitorable = false
 		using_energy = false
+	
+	if OS.is_debug_build() and Input.is_physical_key_pressed(KEY_DELETE): 
+		can_switch = true
+		energy_regen = 300.0
 	
 	if can_switch:
 		if Input.is_physical_key_pressed(KEY_1): element = 0
@@ -154,6 +160,7 @@ func shoot():
 			shot.blast_radius = 3 * G.element_mods_heavy[self.element].blast_radius
 			shot.blast_force = 3.5 * G.element_mods_heavy[self.element].blast_force
 			shot.blast_lift = 1.0 * G.element_mods_heavy[self.element].blast_lift
+			shot.destruction_power = G.element_mods_heavy[self.element].destruction_power
 		_:
 			shot.speed = 50.0 * G.element_mods_basic[self.element].shot_speed
 			shot.acceleration = -10.0 * G.element_mods_basic[self.element].shot_accel
@@ -162,6 +169,7 @@ func shoot():
 			shot.blast_radius = 0.5 * G.element_mods_basic[self.element].blast_radius
 			shot.blast_force = 0.5 * G.element_mods_basic[self.element].blast_force
 			shot.blast_lift = 0.125 * G.element_mods_basic[self.element].blast_lift
+			shot.destruction_power = G.element_mods_basic[self.element].destruction_power
 	
 	shot.add_exception(self)
 	shot.position = position + $Head.position

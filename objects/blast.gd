@@ -1,6 +1,7 @@
 class_name Blast extends Area3D
 
 var element := 0
+var destruction_power := 1.0
 
 var blast_force := 10.0
 var lift_force := 2.5

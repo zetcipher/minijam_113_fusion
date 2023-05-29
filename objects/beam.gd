@@ -3,7 +3,8 @@ class_name Beam extends Area3D
 var element := 0
 
 var active := false
-var push_force := 15.0
+var push_force := 50.0
+var weight_divisor := 2.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,10 +17,11 @@ func _physics_process(delta):
 		var bodies = get_overlapping_bodies()
 		for body in bodies:
 			if not body is RigidBody3D: continue
+			if body is Player: continue
 			var b = body as RigidBody3D
 			var dir : Vector3 = b.position - global_position
-			if element == 2: b.apply_central_force(dir.normalized() * push_force)
-			if element == 3: b.apply_central_force(dir.normalized() * -push_force)
+			if element == 2: b.apply_central_force(dir.normalized() * push_force * (b.mass / weight_divisor))
+			if element == 3: b.apply_central_force(dir.normalized() * -push_force * (b.mass / weight_divisor))
 			#b.apply_torque(dir.normalized() * push_force * 0.4)
 
 func set_element(elmt: int):

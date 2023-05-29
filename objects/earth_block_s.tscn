@@ -7,7 +7,7 @@
 size = Vector3(1.5, 1.5, 1.5)
 
 [node name="EarthBlock_S" type="RigidBody3D"]
-mass = 1.25
+mass = 4.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_6dkjx")

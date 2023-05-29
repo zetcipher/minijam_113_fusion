@@ -37,26 +37,28 @@ radial_segments = 4
 cap_top = false
 cap_bottom = false
 
-[node name="FlameTorch" type="StaticBody3D" node_paths=PackedStringArray("ActionZone")]
+[node name="WiredTorch" type="Node3D" node_paths=PackedStringArray("ActionZone")]
 script = ExtResource("1_ej1as")
 ActionZone = NodePath("InteractionZone")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="FlameTorch" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FlameTorch"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_6vmn8")
 
-[node name="Mesh0" type="MeshInstance3D" parent="."]
+[node name="Mesh0" type="MeshInstance3D" parent="FlameTorch"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = ExtResource("1_v2jja")
 surface_material_override/0 = ExtResource("2_7ay4v")
 surface_material_override/1 = SubResource("StandardMaterial3D_34uq4")
 
-[node name="FlameMesh" type="MeshInstance3D" parent="."]
+[node name="FlameMesh" type="MeshInstance3D" parent="FlameTorch"]
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 1.35254, 0)
 material_override = SubResource("ShaderMaterial_kymui")
 mesh = SubResource("CylinderMesh_wsq7w")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="FlameMesh"]
+[node name="OmniLight3D" type="OmniLight3D" parent="FlameTorch/FlameMesh"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.118962, 0)
 light_color = Color(1, 0.611765, 0.168627, 1)
 omni_range = 2.0

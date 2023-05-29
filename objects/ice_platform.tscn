@@ -17,6 +17,7 @@ color_ramp = SubResource("Gradient_oafwt")
 noise = ExtResource("1_odhar")
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2grly"]
+seamless = true
 as_normal_map = true
 bump_strength = 4.6
 noise = ExtResource("1_odhar")
@@ -25,6 +26,8 @@ noise = ExtResource("1_odhar")
 albedo_texture = SubResource("NoiseTexture2D_5pie1")
 normal_enabled = true
 normal_texture = SubResource("NoiseTexture2D_2grly")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
 
 [node name="IcePlatform" type="StaticBody3D"]
 script = ExtResource("1_je0aa")

@@ -1,17 +1,13 @@
-class_name WireGate extends Node3D
-
-signal activation_changed(active: bool)
+class_name WireGate extends WiringComponent
 
 enum LogicGates {AND, OR, NOR, A_NOT_B, B_NOT_A}
 
 var reds := [Color(0.25,0.0,0.0,1.0),Color(1.0,0.0,0.0,1.0)]
 var greens := [Color(0.0,0.25,0.0,1.0),Color(0.0,1.0,0.0,1.0)]
 
-@export var input_a : InteractableObject
-@export var input_b : InteractableObject
+@export var input_a : WiringComponent
+@export var input_b : WiringComponent
 @export var logic := LogicGates.AND
-
-var activated := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -107,8 +103,3 @@ func check_bnota() -> bool:
 	
 	return result 
 
-
-func set_active(active: bool):
-	if active == activated: return
-	activated = active
-	emit_signal("activation_changed", active)

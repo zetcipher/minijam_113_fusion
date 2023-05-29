@@ -14,5 +14,5 @@ func _process(delta):
 
 func set_flame(on: bool):
 	print("hi")
-	if on: $FlameMesh.show()
-	else: $FlameMesh.hide()
+	if on: $FlameTorch/FlameMesh.show()
+	else: $FlameTorch/FlameMesh.hide()

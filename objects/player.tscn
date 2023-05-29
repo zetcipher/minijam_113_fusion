@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://b1khm8vxgggo3"]
+[gd_scene load_steps=8 format=3 uid="uid://b1khm8vxgggo3"]
 
 [ext_resource type="Script" path="res://objects/player.gd" id="1_uonjx"]
 [ext_resource type="Texture2D" uid="uid://biax3kv2nruub" path="res://assets/textures/crosshair.png" id="2_61efj"]
 [ext_resource type="PackedScene" uid="uid://ch4k4jq2ngkjm" path="res://objects/beam.tscn" id="2_66qxj"]
+[ext_resource type="Texture2D" uid="uid://bsbqbgpv3h527" path="res://assets/textures/icons/iconSheet.png" id="4_bs7b3"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3qk7x"]
 
@@ -57,19 +58,29 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 0
 offset_left = 13.0
-offset_top = 57.0
+offset_top = 94.0
 offset_right = 91.0
-offset_bottom = 83.0
+offset_bottom = 120.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 11
 text = "TEST TEXT"
 
+[node name="Label2" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 128.0
+offset_right = 287.0
+offset_bottom = 154.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 11
+text = "(Press Q to switch)"
+
 [node name="energytext" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 0
 offset_left = 13.0
-offset_top = 18.0
+offset_top = 55.0
 offset_right = 91.0
-offset_bottom = 44.0
+offset_bottom = 81.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 11
 text = "ENERGY"
@@ -95,9 +106,27 @@ text = "Press RMB to equip [POWER]."
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control"]
 layout_mode = 0
 offset_left = 88.0
-offset_top = 16.0
+offset_top = 53.0
 offset_right = 387.0
-offset_bottom = 43.0
+offset_bottom = 80.0
+value = 15.41
+
+[node name="energytext2" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 15.0
+offset_right = 91.0
+offset_bottom = 41.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 11
+text = "LIFE"
+
+[node name="lifebar" type="ProgressBar" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 13.0
+offset_right = 387.0
+offset_bottom = 40.0
 value = 15.41
 
 [node name="crosshair" type="TextureRect" parent="CanvasLayer/Control"]
@@ -114,6 +143,51 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_61efj")
+
+[node name="Power0" type="Control" parent="CanvasLayer/Control"]
+anchors_preset = 0
+offset_left = 12.0
+offset_top = 124.0
+offset_right = 76.0
+offset_bottom = 259.0
+
+[node name="Aspect" type="Sprite2D" parent="CanvasLayer/Control/Power0"]
+texture = ExtResource("4_bs7b3")
+centered = false
+hframes = 4
+vframes = 2
+frame = 4
+
+[node name="Element" type="Sprite2D" parent="CanvasLayer/Control/Power0"]
+position = Vector2(0, 68)
+texture = ExtResource("4_bs7b3")
+centered = false
+hframes = 4
+vframes = 2
+
+[node name="Power1" type="Control" parent="CanvasLayer/Control"]
+modulate = Color(1, 1, 1, 0.75)
+anchors_preset = 0
+offset_left = 83.0
+offset_top = 124.0
+offset_right = 147.0
+offset_bottom = 259.0
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(32, 0)
+
+[node name="Aspect" type="Sprite2D" parent="CanvasLayer/Control/Power1"]
+texture = ExtResource("4_bs7b3")
+centered = false
+hframes = 4
+vframes = 2
+frame = 4
+
+[node name="Element" type="Sprite2D" parent="CanvasLayer/Control/Power1"]
+position = Vector2(0, 68)
+texture = ExtResource("4_bs7b3")
+centered = false
+hframes = 4
+vframes = 2
 
 [node name="floor_cast" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)

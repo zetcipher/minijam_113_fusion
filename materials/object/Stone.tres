@@ -16,3 +16,7 @@ metallic = 0.15
 roughness = 0.83
 normal_enabled = true
 normal_texture = SubResource("NoiseTexture2D_1sh13")
+uv1_scale = Vector3(0.125, 0.125, 0.125)
+uv1_triplanar = true
+uv2_scale = Vector3(0.125, 0.125, 0.125)
+uv2_triplanar = true

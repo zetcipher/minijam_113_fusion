@@ -1,16 +1,37 @@
-[gd_scene load_steps=5 format=3 uid="uid://dv5stwpnqci5q"]
+[gd_scene load_steps=10 format=3 uid="uid://dv5stwpnqci5q"]
 
 [ext_resource type="Script" path="res://objects/water_zone.gd" id="1_qocwf"]
-[ext_resource type="Material" uid="uid://be30wtjq8i8m6" path="res://materials/environment/water0.tres" id="2_jetq0"]
+[ext_resource type="Shader" path="res://shaders/spatial/water.gdshader" id="2_7ehw5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6q7k2"]
-size = Vector3(10, 10, 10)
+size = Vector3(32, 10, 32)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_7o8np"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mqb8q"]
+seamless = true
+noise = SubResource("FastNoiseLite_7o8np")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_qkwfc"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gq6st"]
+seamless = true
+as_normal_map = true
+noise = SubResource("FastNoiseLite_qkwfc")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bysid"]
+render_priority = 0
+shader = ExtResource("2_7ehw5")
+shader_parameter/color = Color(0.1, 0.3, 0.5, 0.33)
+shader_parameter/displacement = 0.125
+shader_parameter/noise = SubResource("NoiseTexture2D_mqb8q")
+shader_parameter/normalmap = SubResource("NoiseTexture2D_gq6st")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_eh1fy"]
-material = ExtResource("2_jetq0")
-size = Vector2(10, 10)
-subdivide_width = 32
-subdivide_depth = 32
+material = SubResource("ShaderMaterial_bysid")
+size = Vector2(32, 32)
+subdivide_width = 64
+subdivide_depth = 64
 
 [node name="WaterZone" type="Area3D"]
 script = ExtResource("1_qocwf")
@@ -24,7 +45,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.103779, 0)
 mesh = SubResource("PlaneMesh_eh1fy")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, -0.103779, 0)
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, -0.00632927, 0)
 mesh = SubResource("PlaneMesh_eh1fy")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

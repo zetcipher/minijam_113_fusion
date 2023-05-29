@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bd4xfmpn42gxx"]
+
+[ext_resource type="ArrayMesh" uid="uid://ccpbxnonkbk8f" path="res://assets/models/beveled_block.obj" id="1_unl4n"]
+[ext_resource type="Material" uid="uid://lk4h80fhqt75" path="res://materials/environment/brushed_metal.tres" id="2_7rw0c"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bu2sb"]
+size = Vector3(4, 4, 4)
+
+[node name="BigBlock" type="RigidBody3D"]
+mass = 4.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_bu2sb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+mesh = ExtResource("1_unl4n")
+surface_material_override/0 = ExtResource("2_7rw0c")

@@ -1,6 +1,7 @@
 class_name BasicProjectile extends Area3D
 
 var element := 0
+var shot_type := 0
 var destruction_power := 0.0
 var freeze_power := 0.0
 var burn_power := 0.0
@@ -80,6 +81,7 @@ func blast():
 		3: effect = G.earth_blast.instantiate()
 		_: effect = G.fire_blast.instantiate()
 	blast.element = element
+	blast.shot_type = shot_type
 	blast.destruction_power = destruction_power
 	blast.freeze_power = freeze_power
 	blast.burn_power = burn_power

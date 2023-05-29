@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://cepvjichljuae"]
+
+[ext_resource type="Script" path="res://objects/clear_box.gd" id="1_uf3x4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fw3bm"]
+size = Vector3(8, 8, 8)
+
+[node name="ClearBox" type="Area3D"]
+script = ExtResource("1_uf3x4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_fw3bm")
+
+[node name="Label3D" type="Label3D" parent="."]
+billboard = 1
+text = "GOAL"
+font_size = 256
+outline_size = 48
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

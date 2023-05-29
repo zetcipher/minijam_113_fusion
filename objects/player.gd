@@ -47,7 +47,6 @@ var lava_zones := 0
 var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	$Head.rotation_degrees.y = starting_rot
 
 func _physics_process(delta):
@@ -220,7 +219,9 @@ func heal_life(amount: float):
 	if life > 100.0: life = 100.0
 
 func voidout():
+	linear_velocity = Vector3.ZERO
 	position = G.respawn_location
+	G.death_count += 1
 	life = 50.0
 
 func shoot_block():
@@ -237,6 +238,7 @@ func shoot_block():
 func shoot():
 	var shot := G.basic_shot.instantiate() as BasicProjectile
 	shot.element = element
+	shot.shot_type = shot_type
 	match shot_type:
 		1:
 			shot.speed = 30.0 * G.element_mods_heavy[self.element].shot_speed
@@ -313,7 +315,7 @@ func movement(delta: float):
 #	else:
 #		apply_central_force(Vector3.DOWN * gravity)
 	
-	if Input.is_action_just_pressed("jump") and on_floor and not water_zones:
+	if Input.is_action_just_pressed("jump") and (on_floor or (OS.is_debug_build() and Input.is_physical_key_pressed(KEY_SHIFT))) and not water_zones:
 		apply_central_impulse(Vector3.UP * JUMP_VELOCITY)
 		#apply_central_impulse(Vector3(1,0,1) * -0.5)
 	if Input.is_action_just_pressed("jump") and water_zones and linear_velocity.y < 3.5:

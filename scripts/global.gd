@@ -10,6 +10,7 @@ var respawn_location := Vector3.ZERO
 var death_count := 0
 
 var game_started := false
+var game_cleared := false
 
 var power_names := [
 	["FIRE BALL", "ICE SHOT", "PUSH FORCE", "ROCK SHOT"], # basic shot
@@ -156,11 +157,23 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if game_started: play_time += delta
+	if game_started and not game_cleared: play_time += delta
 	
 	if not game_started and Input.is_action_just_pressed("shoot"): 
 		game_started = true
 		get_tree().paused = false
+	
+	if get_tree().paused: Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	else: Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+
+func reset():
+	game_started = false
+	game_cleared = false
+	play_time = 0.0
+	death_count = 0
+	respawn_location = Vector3.ZERO
+	get_tree().reload_current_scene()
 
 
 func bool_to_sign(input: bool) -> int:

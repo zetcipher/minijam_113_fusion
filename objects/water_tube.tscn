@@ -16,6 +16,7 @@ color_ramp = SubResource("Gradient_jq1fv")
 noise = SubResource("FastNoiseLite_tgnsy")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0mibu"]
+resource_local_to_scene = true
 transparency = 3
 alpha_hash_scale = 1.0
 alpha_antialiasing_mode = 0
@@ -121,8 +122,9 @@ _data = {
 "frozen": SubResource("Animation_0kvc0")
 }
 
-[node name="WaterTube" type="Node3D"]
+[node name="WaterTube" type="Node3D" node_paths=PackedStringArray("ActionZone")]
 script = ExtResource("1_o3mos")
+ActionZone = NodePath("InteractionZone")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = ExtResource("2_xrk1b")

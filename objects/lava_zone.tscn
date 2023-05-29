@@ -1,7 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://dv5stwpnqci5q"]
+[gd_scene load_steps=10 format=3 uid="uid://dbu0jrmgwk653"]
 
-[ext_resource type="Script" path="res://objects/water_zone.gd" id="1_qocwf"]
-[ext_resource type="Shader" path="res://shaders/spatial/water.gdshader" id="2_7ehw5"]
+[ext_resource type="Script" path="res://objects/lava_zone.gd" id="1_sslyr"]
+[ext_resource type="Shader" path="res://shaders/spatial/water.gdshader" id="2_lh6m8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6q7k2"]
 size = Vector3(32, 10, 32)
@@ -19,23 +19,23 @@ seamless = true
 as_normal_map = true
 noise = SubResource("FastNoiseLite_qkwfc")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bysid"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bh7j6"]
 render_priority = 0
-shader = ExtResource("2_7ehw5")
-shader_parameter/color = Color(0.0980392, 0.298039, 0.501961, 0.329412)
+shader = ExtResource("2_lh6m8")
+shader_parameter/color = Color(0.996078, 0.219608, 0, 0.878431)
 shader_parameter/displacement = 0.125
-shader_parameter/ripple_speed = 1.0
+shader_parameter/ripple_speed = 0.15
 shader_parameter/noise = SubResource("NoiseTexture2D_mqb8q")
 shader_parameter/normalmap = SubResource("NoiseTexture2D_gq6st")
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_eh1fy"]
-material = SubResource("ShaderMaterial_bysid")
+[sub_resource type="PlaneMesh" id="PlaneMesh_rrg7k"]
+material = SubResource("ShaderMaterial_bh7j6")
 size = Vector2(32, 32)
 subdivide_width = 64
 subdivide_depth = 64
 
-[node name="WaterZone" type="Area3D"]
-script = ExtResource("1_qocwf")
+[node name="LavaZone" type="Area3D"]
+script = ExtResource("1_sslyr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
@@ -43,11 +43,7 @@ shape = SubResource("BoxShape3D_6q7k2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.103779, 0)
-mesh = SubResource("PlaneMesh_eh1fy")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, -0.00632927, 0)
-mesh = SubResource("PlaneMesh_eh1fy")
+mesh = SubResource("PlaneMesh_rrg7k")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

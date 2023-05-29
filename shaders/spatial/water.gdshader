@@ -4,6 +4,7 @@ render_mode specular_toon, diffuse_toon;
 
 uniform vec4 color : source_color = vec4(0.2, 0.5, 1.0, 1.0);
 uniform float displacement = 0.25;
+uniform float ripple_speed = 1.0;
 //uniform vec2 offset = vec2(0.0,0.0);
 
 uniform sampler2D noise;
@@ -29,9 +30,9 @@ void vertex() {
 	//VERTEX.y += (displacement * sin((VERTEX.x + offset.x) + (VERTEX.z + offset.y))) - displacement * 0.5;
 	tex_pos = VERTEX.xz / 2.0 + 0.5;
 	vec2 pos = VERTEX.xz;
-	float k = height(pos, TIME);
+	float k = height(pos, TIME * ripple_speed);
 	VERTEX.y = k;
-	NORMAL = normalize(vec3(k - height(pos + vec2(0.1, 0.0), TIME), 0.1, k - height(pos + vec2(0.0, 0.1), TIME)));
+	NORMAL = normalize(vec3(k - height(pos + vec2(0.1, 0.0), TIME), 0.1, k - height(pos + vec2(0.0, 0.1), TIME * ripple_speed)));
 }
 
 void fragment() {

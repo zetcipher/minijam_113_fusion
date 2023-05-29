@@ -1,0 +1,147 @@
+[gd_scene load_steps=18 format=3 uid="uid://b2xxp6wwm2b4l"]
+
+[ext_resource type="Script" path="res://objects/water_tube.gd" id="1_o3mos"]
+[ext_resource type="ArrayMesh" uid="uid://cadfst1owpdic" path="res://assets/models/waterTube.obj" id="2_xrk1b"]
+[ext_resource type="Material" uid="uid://lk4h80fhqt75" path="res://materials/environment/brushed_metal.tres" id="3_1ro32"]
+[ext_resource type="PackedScene" uid="uid://535p3yjxx6sp" path="res://objects/interaction_zone.tscn" id="4_rgdn4"]
+
+[sub_resource type="Gradient" id="Gradient_jq1fv"]
+colors = PackedColorArray(0.76, 0.76, 0.76, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_tgnsy"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kmvd6"]
+seamless = true
+color_ramp = SubResource("Gradient_jq1fv")
+noise = SubResource("FastNoiseLite_tgnsy")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0mibu"]
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
+albedo_color = Color(0.258824, 0.717647, 1, 1)
+albedo_texture = SubResource("NoiseTexture2D_kmvd6")
+
+[sub_resource type="Gradient" id="Gradient_36wjj"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.509804)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_varv1"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4nr26"]
+seamless = true
+color_ramp = SubResource("Gradient_36wjj")
+noise = SubResource("FastNoiseLite_varv1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xkr6i"]
+transparency = 1
+diffuse_mode = 3
+specular_mode = 1
+albedo_color = Color(1, 1, 1, 0.172549)
+albedo_texture = SubResource("NoiseTexture2D_4nr26")
+uv1_scale = Vector3(16, 0.01, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nqiuy"]
+size = Vector3(0.71, 2, 0.71)
+
+[sub_resource type="Animation" id="Animation_bwq6g"]
+resource_name = "flowing"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:surface_material_override/1:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.2, 0.6, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:surface_material_override/1:uv1_offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(2, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_vrrbv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:surface_material_override/1:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.258824, 0.717647, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:surface_material_override/1:uv1_offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_0kvc0"]
+resource_name = "frozen"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:surface_material_override/1:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.729412, 0.933333, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_q33t8"]
+_data = {
+"RESET": SubResource("Animation_vrrbv"),
+"flowing": SubResource("Animation_bwq6g"),
+"frozen": SubResource("Animation_0kvc0")
+}
+
+[node name="WaterTube" type="Node3D"]
+script = ExtResource("1_o3mos")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_xrk1b")
+surface_material_override/0 = ExtResource("3_1ro32")
+surface_material_override/1 = SubResource("StandardMaterial3D_0mibu")
+surface_material_override/2 = SubResource("StandardMaterial3D_xkr6i")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 1, 0)
+shape = SubResource("BoxShape3D_nqiuy")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_q33t8")
+}
+
+[node name="InteractionZone" parent="." instance=ExtResource("4_rgdn4")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 1, 0)
+on_elements = Array[int]([1])
+off_elements = Array[int]([0])

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cadfst1owpdic"
+path="res://.godot/imported/waterTube.obj-b44126cca3062d722cc57d7bf9bb68da.mesh"
+
+[deps]
+
+files=["res://.godot/imported/waterTube.obj-b44126cca3062d722cc57d7bf9bb68da.mesh"]
+
+source_file="res://assets/models/waterTube.obj"
+dest_files=["res://.godot/imported/waterTube.obj-b44126cca3062d722cc57d7bf9bb68da.mesh", "res://.godot/imported/waterTube.obj-b44126cca3062d722cc57d7bf9bb68da.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

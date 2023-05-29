@@ -6,7 +6,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_6dkjx"]
 size = Vector3(1.5, 1.5, 1.5)
 
-[node name="EarthBlock_S" type="RigidBody3D"]
+[node name="EarthBlock_S" type="RigidBody3D" groups=["PlayerEarthBlocks"]]
 mass = 4.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

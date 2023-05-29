@@ -1,11 +1,13 @@
 class_name Player extends RigidBody3D
 
 const TOP_SPEED := 6.0
-const JUMP_VELOCITY := 15.0
+const JUMP_VELOCITY := 17.5
 const ACCEL_GRND := 100.0
 const ACCEL_AIR := 10.0
 const DECEL_GRND := 30.0
 const DECEL_AIR := 5.0
+
+@export var starting_rot := 0.0
 
 var speed := 0.0
 var plr_force := Vector3.ZERO
@@ -17,7 +19,8 @@ var life := 100.0
 var energy := 100.0
 var using_energy := false
 var energy_regen := 100.0
-var water_life_drain := 15.0
+var water_life_drain := 50.0
+var lava_life_drain := 100.0
 var life_regen := 10.0
 var must_refill := false
 var regen_delay := 0.0
@@ -35,6 +38,7 @@ var element_alt := 0
 var cam_sens := Vector2(3,3)
 
 var water_zones := 0
+var lava_zones := 0
 
 
 @onready var cam := $Head/Camera3D as Camera3D
@@ -44,10 +48,14 @@ var gravity : float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	$Head.rotation_degrees.y = starting_rot
 
 func _physics_process(delta):
+	if G.game_started: $CanvasLayer.show()
+	else: $CanvasLayer.hide()
 	movement(delta)
-	if Input.is_action_just_pressed("shoot") and has_gun and shot_type != 2 and not must_refill: shoot()
+	if Input.is_action_just_pressed("shoot") and has_gun and ((shot_type == 0 and element != 3) or shot_type == 1) and not must_refill: shoot()
+	if Input.is_action_just_pressed("shoot") and has_gun and (shot_type == 0 and element == 3) and not must_refill: shoot_block()
 	
 	if Input.is_action_pressed("shoot") and has_gun and shot_type == 2 and not must_refill:
 		var beam = $Body/Beam as Area3D
@@ -75,6 +83,7 @@ func _physics_process(delta):
 		using_energy = false
 	
 	if OS.is_debug_build() and Input.is_physical_key_pressed(KEY_DELETE): 
+		has_gun = true
 		can_switch = true
 		energy_regen = 300.0
 	
@@ -143,6 +152,7 @@ func _physics_process(delta):
 				shot_type = power
 			else: 
 				element = power
+			if not has_gun: has_gun = true
 			G.emit_signal("power_updated", shot_type, element)
 	else:
 		$CanvasLayer/Control/powerText.hide()
@@ -153,16 +163,18 @@ func _physics_process(delta):
 	$CanvasLayer/Control/Power1/Aspect.frame = shot_type_alt + 4
 	$CanvasLayer/Control/Power1/Element.frame = element_alt
 	
-	if has_gun:
+	if not has_gun:
 		$CanvasLayer/Control/energytext.hide()
 		$CanvasLayer/Control/ProgressBar.hide()
-		$CanvasLayer/Control/powerText.hide()
+		$CanvasLayer/Control/Label.hide()
+		$CanvasLayer/Control/Label2.hide()
 		$CanvasLayer/Control/Power0.hide()
 		$CanvasLayer/Control/Power1.hide()
 	else:
 		$CanvasLayer/Control/energytext.show()
 		$CanvasLayer/Control/ProgressBar.show()
-		$CanvasLayer/Control/powerText.show()
+		$CanvasLayer/Control/Label.show()
+		$CanvasLayer/Control/Label2.show()
 		$CanvasLayer/Control/Power0.show()
 		$CanvasLayer/Control/Power1.show()
 	
@@ -177,6 +189,8 @@ func _physics_process(delta):
 	
 	if water_zones:
 		subtract_life(water_life_drain * delta)
+	if lava_zones:
+		subtract_life(lava_life_drain * delta)
 	
 	if life < 100.0 and life_regen_delay <= 0.0:
 		heal_life(life_regen * delta)
@@ -197,14 +211,28 @@ func _physics_process(delta):
 
 func subtract_life(amount: float):
 	life -= amount
-	if life < 0.0: 
-		life = 0.0
-		#TODO: voidout
+	if life <= 0.0: 
+		voidout()
 	life_regen_delay = 2.0
 
 func heal_life(amount: float):
 	life += amount
 	if life > 100.0: life = 100.0
+
+func voidout():
+	position = G.respawn_location
+	life = 50.0
+
+func shoot_block():
+	if get_tree().get_nodes_in_group("PlayerEarthBlocks").size() > 2:
+		get_tree().get_first_node_in_group("PlayerEarthBlocks").queue_free()
+	var block := G.earth_block.instantiate() as RigidBody3D
+	var dir : Vector3 = $Head/Camera3D/Target.global_position - position
+	dir = dir.normalized()
+	block.position = $Head.global_position + (dir * 0.75)
+	block.apply_central_impulse(dir * 10.0)
+	get_parent().add_child(block)
+	
 
 func shoot():
 	var shot := G.basic_shot.instantiate() as BasicProjectile
@@ -267,6 +295,10 @@ func movement(delta: float):
 	var floorarea := $floor_detect as Area3D
 	var on_floor := floorcast.is_colliding()
 	
+	var speed_mult := 1.0
+	if OS.is_debug_build() and Input.is_physical_key_pressed(KEY_SHIFT):
+		speed_mult = 2.5
+	
 	if floorarea.get_overlapping_bodies().size() > 1:
 		on_floor = true
 		physics_material_override.friction = 1.0
@@ -295,11 +327,11 @@ func movement(delta: float):
 	
 	var h_vel := Vector3(linear_velocity.x, 0, linear_velocity.z)
 	
-	if direction.length() > 0.0 and h_vel.length() < TOP_SPEED:
+	if direction.length() > 0.0 and h_vel.length() < TOP_SPEED * speed_mult:
 		if on_floor:
-			apply_central_force(direction * ACCEL_GRND)
+			apply_central_force(direction * ACCEL_GRND * speed_mult)
 		else:
-			apply_central_force(direction * ACCEL_AIR)
+			apply_central_force(direction * ACCEL_AIR * speed_mult)
 	
 	
 #	# Add the gravity.

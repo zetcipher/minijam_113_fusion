@@ -5,6 +5,12 @@ signal power_updated(aspect: int, element: int)
 enum Aspects {BASIC, HEAVY, BEAM, MELEE}
 enum Elements {FIRE, ICE, WIND, EARTH}
 
+var play_time := 0.0
+var respawn_location := Vector3.ZERO
+var death_count := 0
+
+var game_started := false
+
 var power_names := [
 	["FIRE BALL", "ICE SHOT", "PUSH FORCE", "ROCK SHOT"], # basic shot
 	["INFERNO BLAST", "FREEZE BLAST", "HURRICANE SHOT", "CUTE BOMB"], # heavy shot
@@ -141,15 +147,20 @@ var wind_blast := preload("res://objects/wind_blast.tscn")
 var earth_blast := preload("res://objects/earth_blast.tscn")
 
 var ice_plat := preload("res://objects/ice_platform.tscn")
+var earth_block := preload("res://objects/earth_block_s.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	if game_started: play_time += delta
+	
+	if not game_started and Input.is_action_just_pressed("shoot"): 
+		game_started = true
+		get_tree().paused = false
 
 
 func bool_to_sign(input: bool) -> int:

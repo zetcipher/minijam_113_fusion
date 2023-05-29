@@ -43,7 +43,7 @@ material = SubResource("StandardMaterial3D_elhnr")
 size = Vector3(0.75, 0.25, 0.125)
 
 [sub_resource type="BoxMesh" id="BoxMesh_lcikj"]
-size = Vector3(0.5, 0.25, 0.5)
+size = Vector3(0.75, 1.25, 0.75)
 
 [node name="WireGate" type="Node3D"]
 script = ExtResource("1_p1tp8")
@@ -77,6 +77,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0683547)
 text = "A NOT B"
 
 [node name="LightC" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 material_override = ExtResource("4_51mg3")
 mesh = SubResource("BoxMesh_lcikj")

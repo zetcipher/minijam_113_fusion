@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://bg1umq48h1i6o"]
+[gd_scene load_steps=55 format=3 uid="uid://bg1umq48h1i6o"]
 
 [ext_resource type="Texture2D" uid="uid://c50m2wdr1wta0" path="res://assets/textures/checkerboard.png" id="1_emwne"]
 [ext_resource type="PackedScene" uid="uid://b1khm8vxgggo3" path="res://objects/player.tscn" id="2_olev3"]
@@ -9,6 +9,7 @@
 [ext_resource type="Material" uid="uid://dm1r8s7in5f6v" path="res://materials/environment/graybox.tres" id="7_01m3b"]
 [ext_resource type="PackedScene" uid="uid://jkpkstd152fy" path="res://objects/power_pedestal.tscn" id="8_ae4hk"]
 [ext_resource type="PackedScene" uid="uid://b2ylkj764y6km" path="res://objects/flame_torch.tscn" id="9_lgjkv"]
+[ext_resource type="PackedScene" uid="uid://b2xxp6wwm2b4l" path="res://objects/water_tube.tscn" id="10_5jebe"]
 [ext_resource type="PackedScene" uid="uid://ffkit8lu7snt" path="res://objects/rock_wall.tscn" id="10_t3mku"]
 [ext_resource type="PackedScene" uid="uid://be2v0w0fdprre" path="res://objects/door.tscn" id="11_8ipqk"]
 [ext_resource type="PackedScene" uid="uid://dv5stwpnqci5q" path="res://objects/water_zone.tscn" id="12_kqe4e"]
@@ -883,6 +884,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 0, 37)
 [node name="FlameTorch13" parent="WorldEnvironment/Interactables" instance=ExtResource("9_lgjkv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 0, 39)
 
+[node name="WaterTube" parent="WorldEnvironment/Interactables" instance=ExtResource("10_5jebe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 46.5)
+
 [node name="Destructables" type="Node3D" parent="WorldEnvironment"]
 
 [node name="RockWall" parent="WorldEnvironment/Destructables" instance=ExtResource("10_t3mku")]
@@ -913,6 +917,10 @@ linked_wire = NodePath("../../../WireGates/WireGate2")
 [node name="Door5" parent="WorldEnvironment/Doors" node_paths=PackedStringArray("linked_wire") instance=ExtResource("11_8ipqk")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 37, 0, 41)
 linked_wire = NodePath("../../../WireGates/WireGate3")
+
+[node name="Door8" parent="WorldEnvironment/Doors" node_paths=PackedStringArray("linked_wire") instance=ExtResource("11_8ipqk")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 2.5, 0, 45.5)
+linked_wire = NodePath("../../Interactables/WaterTube")
 
 [node name="Door6" parent="WorldEnvironment/Doors" node_paths=PackedStringArray("linked_wire") instance=ExtResource("11_8ipqk")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 47, 0, 30)

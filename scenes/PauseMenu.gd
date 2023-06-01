@@ -9,9 +9,6 @@ func _ready():
 func _process(delta):
 	if get_tree().paused and G.game_started: show()
 	else: hide()
-	
-	if Input.is_action_just_pressed("pause") and G.game_started:
-		get_tree().paused = !get_tree().paused
 
 
 func _on_button_pressed():

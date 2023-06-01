@@ -1,0 +1,139 @@
+[gd_scene load_steps=4 format=3 uid="uid://cbcc6d8y7oefm"]
+
+[ext_resource type="Script" path="res://scenes/main_scene.gd" id="1_1rl5u"]
+[ext_resource type="PackedScene" uid="uid://bh06a406l4ttn" path="res://scenes/map_0.tscn" id="1_s52gm"]
+[ext_resource type="Script" path="res://scenes/PauseMenu.gd" id="2_uvgbh"]
+
+[node name="MainScene" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1rl5u")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+process_mode = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+audio_listener_enable_3d = true
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="map0" parent="SubViewportContainer/SubViewport" instance=ExtResource("1_s52gm")]
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("2_uvgbh")
+
+[node name="Control" type="Control" parent="PauseMenu"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.219608, 0.219608, 0.219608, 0.827451)
+
+[node name="Button" type="Button" parent="PauseMenu/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -94.5
+offset_top = -33.0
+offset_right = 94.5
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 26
+text = "Resume"
+
+[node name="Button2" type="Button" parent="PauseMenu/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -94.5
+offset_top = 50.0
+offset_right = 94.5
+offset_bottom = 116.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 26
+text = "Reset"
+
+[node name="Button3" type="Button" parent="PauseMenu/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -94.5
+offset_top = 131.0
+offset_right = 94.5
+offset_bottom = 197.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 26
+text = "Quit"
+
+[node name="renderResSlide" type="HSlider" parent="PauseMenu/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -107.0
+offset_right = 200.0
+offset_bottom = -91.0
+grow_horizontal = 2
+grow_vertical = 2
+min_value = 1.0
+max_value = 4.0
+value = 1.0
+
+[node name="Label" type="Label" parent="PauseMenu/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -137.0
+offset_right = 20.0
+offset_bottom = -111.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Render Scale - 100%"
+
+[connection signal="pressed" from="PauseMenu/Control/Button" to="PauseMenu" method="_on_button_pressed"]
+[connection signal="pressed" from="PauseMenu/Control/Button2" to="PauseMenu" method="_on_button_2_pressed"]
+[connection signal="pressed" from="PauseMenu/Control/Button3" to="PauseMenu" method="_on_button_3_pressed"]
+[connection signal="value_changed" from="PauseMenu/Control/renderResSlide" to="." method="_on_render_res_slide_value_changed"]

@@ -206,6 +206,12 @@ func _physics_process(delta):
 			life_regen_delay = 0.0
 	
 	$CanvasLayer/Control/Label.text = G.power_names[shot_type][element]
+	for node in $CanvasLayer/Control.get_children():
+		if G.render_scale == 1.0:
+			node.scale = Vector2.ONE / G.render_scale
+		else:
+			node.scale = Vector2.ONE / (G.render_scale * 0.5)
+	$CanvasLayer/Control/crosshair.scale = Vector2.ONE / G.render_scale
 	
 	#print(Vector3(1,2,4).rotated(Vector3(0,1,0), cam.rotation.y))
 
@@ -392,8 +398,8 @@ func _input(event):
 	
 	var ev := event as InputEventMouseMotion
 	
-	$Head.rotation.y -= ev.relative.x * 0.001 * cam_sens.x
-	cam.rotation.x -= ev.relative.y * 0.001 * cam_sens.y
+	$Head.rotation.y -= ev.relative.x * 0.001 * cam_sens.x * G.render_scale
+	cam.rotation.x -= ev.relative.y * 0.001 * cam_sens.y * G.render_scale
 	cam.rotation.x = clamp(cam.rotation.x, deg_to_rad(-89), deg_to_rad(89))
 	
 	

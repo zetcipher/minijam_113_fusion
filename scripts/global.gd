@@ -5,6 +5,8 @@ signal power_updated(aspect: int, element: int)
 enum Aspects {BASIC, HEAVY, BEAM, MELEE}
 enum Elements {FIRE, ICE, WIND, EARTH}
 
+var render_scale := 1.0
+
 var play_time := 0.0
 var respawn_location := Vector3.ZERO
 var death_count := 0
@@ -165,6 +167,9 @@ func _process(delta):
 	if not game_started and Input.is_action_just_pressed("shoot"): 
 		game_started = true
 		get_tree().paused = false
+	
+	if Input.is_action_just_pressed("pause") and G.game_started:
+		get_tree().paused = not get_tree().paused
 	
 	if get_tree().paused: Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	else: Input.mouse_mode = Input.MOUSE_MODE_CAPTURED

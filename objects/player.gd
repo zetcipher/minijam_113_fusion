@@ -113,8 +113,8 @@ func _physics_process(delta):
 	
 	
 	var pCheck_ray := $Head/Camera3D/RayCast3D2 as RayCast3D
-	var ptext0 := "Press RMB to equip ["
-	var ptext1 := "]."
+	var ptext0 := "Right Click to equip "
+	var ptext1 := " to main slot."
 	
 	if Input.is_action_just_pressed("scroll_aspect_back"):
 		var st := shot_type
@@ -134,15 +134,15 @@ func _physics_process(delta):
 		var is_aspect : bool = pCheck_ray.get_collider().is_aspect
 		
 		if is_aspect: match power:
-			1: ptext2 = "BLAST"
-			2: ptext2 = "BEAM"
-			3: ptext2 = "MELEE"
-			_: ptext2 = "BULLET"
+			1: ptext2 = "aspect [BLAST]"
+			2: ptext2 = "aspect [BEAM]"
+			3: ptext2 = "aspect [MELEE]"
+			_: ptext2 = "aspect [BULLET]"
 		else: match power:
-			1: ptext2 = "ICE"
-			2: ptext2 = "WIND"
-			3: ptext2 = "EARTH"
-			_: ptext2 = "FIRE"
+			1: ptext2 = "element [ICE]"
+			2: ptext2 = "element [WIND]"
+			3: ptext2 = "element [EARTH]"
+			_: ptext2 = "element [FIRE]"
 		
 		$CanvasLayer/Control/powerText.text = ptext0 + ptext2 + ptext1
 		$CanvasLayer/Control/powerText.show()

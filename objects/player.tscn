@@ -60,24 +60,26 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -83.0
+offset_left = -163.0
 offset_right = -5.0
 offset_bottom = 26.0
 grow_horizontal = 0
+pivot_offset = Vector2(158, 0)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 11
 text = "TEST TEXT"
+horizontal_alignment = 2
 
 [node name="Label2" type="Label" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -113.0
-offset_top = 160.0
-offset_right = -1.0
-offset_bottom = 186.0
+offset_left = -260.0
+offset_right = -148.0
+offset_bottom = 26.0
 grow_horizontal = 0
+pivot_offset = Vector2(112, 0)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 11
 text = "(Q: swap slots)"
@@ -166,6 +168,7 @@ offset_top = 24.0
 offset_right = -3.0
 offset_bottom = 159.0
 grow_horizontal = 0
+pivot_offset = Vector2(64, 0)
 
 [node name="Aspect" type="Sprite2D" parent="CanvasLayer/Control/Power0"]
 texture = ExtResource("4_bs7b3")
@@ -192,7 +195,7 @@ offset_top = 27.0
 offset_right = -37.0
 offset_bottom = 162.0
 grow_horizontal = 0
-pivot_offset = Vector2(32, 0)
+pivot_offset = Vector2(64, 0)
 
 [node name="Aspect" type="Sprite2D" parent="CanvasLayer/Control/Power1"]
 scale = Vector2(0.5, 0.5)

@@ -6,7 +6,7 @@ class_name InteractionZone extends Area3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	if get_parent() is InteractableObject: activated = get_parent().activated
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

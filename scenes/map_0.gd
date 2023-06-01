@@ -5,6 +5,8 @@ var readable_seconds := 0.0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_tree().paused = true
+	G.play_area_min = Vector3(-64, -16, -64)
+	G.play_area_max = Vector3(64, 112, 64)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

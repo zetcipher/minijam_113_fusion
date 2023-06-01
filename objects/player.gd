@@ -335,6 +335,11 @@ func movement(delta: float):
 		else:
 			apply_central_force(direction * ACCEL_AIR * speed_mult)
 	
+	if (position.x < G.play_area_min.x or position.x > G.play_area_max.x) or \
+	(position.y < G.play_area_min.y or position.y > G.play_area_max.y) or \
+	(position.z < G.play_area_min.z or position.z > G.play_area_max.z):
+		voidout()
+	
 	
 #	# Add the gravity.
 #	if not is_on_floor():

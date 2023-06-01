@@ -12,6 +12,9 @@ var death_count := 0
 var game_started := false
 var game_cleared := false
 
+var play_area_min := Vector3.ONE * -512
+var play_area_max := Vector3.ONE * 512
+
 var power_names := [
 	["FIRE BALL", "ICE SHOT", "PUSH FORCE", "ROCK SHOT"], # basic shot
 	["INFERNO BLAST", "FREEZE BLAST", "HURRICANE SHOT", "CUTE BOMB"], # heavy shot

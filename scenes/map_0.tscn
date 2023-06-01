@@ -3148,7 +3148,7 @@ activated = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, 6.5)
 
 [node name="WaterTube2" parent="Switches" instance=ExtResource("6_2syoe")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 9, -14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 9, -9)
 
 [node name="WaterTube3" parent="Switches" instance=ExtResource("6_2syoe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 9, -29)
@@ -3209,7 +3209,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 9, -17)
 power = 2
 
 [node name="PowerPedestal9" parent="pedastals" instance=ExtResource("3_6jb50")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23, 9, -14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 9, -14)
 power = 1
 
 [node name="PowerPedestal10" parent="pedastals" instance=ExtResource("3_6jb50")]

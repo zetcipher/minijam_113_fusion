@@ -123,6 +123,7 @@ func _physics_process(delta):
 		element = element_alt
 		shot_type_alt = st
 		element_alt = e
+		G.emit_signal("power_updated", shot_type, element)
 	
 	if pCheck_ray.is_colliding() and pCheck_ray.get_collider() is PowerCrystal: can_pick_power = true
 	else: can_pick_power = false

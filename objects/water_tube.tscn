@@ -20,7 +20,7 @@ resource_local_to_scene = true
 transparency = 3
 alpha_hash_scale = 1.0
 alpha_antialiasing_mode = 0
-albedo_color = Color(0.258824, 0.717647, 1, 1)
+albedo_color = Color(0.2, 0.6, 1, 1)
 albedo_texture = SubResource("NoiseTexture2D_kmvd6")
 
 [sub_resource type="Gradient" id="Gradient_36wjj"]
@@ -43,6 +43,33 @@ uv1_scale = Vector3(16, 0.01, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nqiuy"]
 size = Vector3(0.71, 2, 0.71)
+
+[sub_resource type="Animation" id="Animation_vrrbv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:surface_material_override/1:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.2, 0.6, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:surface_material_override/1:uv1_offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_bwq6g"]
 resource_name = "flowing"
@@ -70,33 +97,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(2, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_vrrbv"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:surface_material_override/1:albedo_color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0.258824, 0.717647, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("MeshInstance3D:surface_material_override/1:uv1_offset")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_0kvc0"]

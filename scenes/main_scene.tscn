@@ -148,8 +148,24 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "VSync"
 
+[node name="CheckButton2" type="CheckButton" parent="PauseMenu/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -47.0
+offset_top = -223.0
+offset_right = 47.0
+offset_bottom = -192.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Occlusion Culling (Improves performance)"
+
 [connection signal="pressed" from="PauseMenu/Control/Button" to="PauseMenu" method="_on_button_pressed"]
 [connection signal="pressed" from="PauseMenu/Control/Button2" to="PauseMenu" method="_on_button_2_pressed"]
 [connection signal="pressed" from="PauseMenu/Control/Button3" to="PauseMenu" method="_on_button_3_pressed"]
 [connection signal="value_changed" from="PauseMenu/Control/renderResSlide" to="." method="_on_render_res_slide_value_changed"]
 [connection signal="toggled" from="PauseMenu/Control/CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="toggled" from="PauseMenu/Control/CheckButton2" to="." method="_on_check_button_2_toggled"]

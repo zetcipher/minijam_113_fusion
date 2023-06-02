@@ -1,4 +1,4 @@
-[gd_scene load_steps=166 format=3 uid="uid://bh06a406l4ttn"]
+[gd_scene load_steps=167 format=3 uid="uid://bh06a406l4ttn"]
 
 [ext_resource type="Script" path="res://addons/cyclops_level_builder/nodes/cyclops_blocks.gd" id="1_4wc2p"]
 [ext_resource type="Script" path="res://scenes/map_0.gd" id="1_7mwlq"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://b2xxp6wwm2b4l" path="res://objects/water_tube.tscn" id="6_2syoe"]
 [ext_resource type="PackedScene" uid="uid://bd4xfmpn42gxx" path="res://objects/big_block.tscn" id="10_srvga"]
 [ext_resource type="PackedScene" uid="uid://ffkit8lu7snt" path="res://objects/rock_wall.tscn" id="11_pw1k1"]
+[ext_resource type="ArrayOccluder3D" uid="uid://ccc8c037vyhhg" path="res://scenes/map_0.occ" id="17_qws6c"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_exv8j"]
 
@@ -3942,3 +3943,6 @@ theme_override_constants/outline_size = 16
 theme_override_font_sizes/font_size = 22
 text = "CLEAR!!  Your time: 00:00.00  Deaths: 0"
 horizontal_alignment = 1
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("17_qws6c")

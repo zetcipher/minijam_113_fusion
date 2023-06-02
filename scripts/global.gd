@@ -7,6 +7,7 @@ enum Elements {FIRE, ICE, WIND, EARTH}
 
 var render_scale := 1.0
 var vsync := true
+var occlusion := false
 
 var play_time := 0.0
 var respawn_location := Vector3.ZERO

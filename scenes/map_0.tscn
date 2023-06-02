@@ -26,6 +26,8 @@ sky_material = SubResource("ProceduralSkyMaterial_exv8j")
 [sub_resource type="Environment" id="Environment_la6ek"]
 background_mode = 2
 sky = SubResource("Sky_uni4r")
+ambient_light_color = Color(0.4, 0.4, 0.4, 1)
+ambient_light_sky_contribution = 0.0
 
 [sub_resource type="Resource" id="Resource_1n3j2"]
 script = ExtResource("3_qerrl")
